@@ -18,6 +18,8 @@ so ausgeliefert, wie sie hier liegen.
 | `assets/js/nav.js` | Navigation verschwindet beim Herunterscrollen, kommt beim Hochscrollen zurück. |
 | `assets/js/home.js` | Home: Projekte auf dem endlosen Kreisbogen, Treiben, Klick-Übergang. Stellschrauben stehen oben im Skript. |
 | `assets/js/enter.js` | Projektseite: zweiter Teil des Übergangs von Home (Bild gleitet an seinen Platz). |
+| `assets/js/cursor.js` | Eigener Mauszeiger: runde Glasscheibe, über Projektbildern groß mit Titel und Jahr. |
+| `assets/js/pointer.js` | Gemeinsame Neigung aus Mausposition oder Handysensor für die räumlichen Effekte. |
 | `assets/js/layers.js` | Projektseite: Ebenen schieben sich übereinander. |
 | `assets/js/video.js` | Projektseite: Videos starten erst im Bild, Schleifen lassen sich anhalten. |
 | `assets/js/filter.js` | Index: Tag-Filter, Zustand in der Adresse. |

@@ -82,7 +82,7 @@ def tag_labels(project):
 def page(root, title, description, body, body_class="", scripts=(), early_script=""):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
     script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
-                            for s in ("nav.js", *scripts))
+                            for s in ("nav.js", "cursor.js", *scripts))
     # Ein "frühes" Skript läuft, bevor die Seite gezeichnet wird (nur enter.js auf den Projektseiten).
     early = f'  <script src="{root}assets/js/{early_script}"></script>\n' if early_script else ""
     html = f"""<!DOCTYPE html>
@@ -187,13 +187,14 @@ def project_page(project, previous, following):
                 early_script="enter.js")
 
 
-def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem"):
+def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem", cursor_label=False):
     """Die Projektliste. Sie steht als normale Liste im HTML und ist ohne JavaScript benutzbar.
-    'sizes' sagt dem Browser, wie breit das Cover gezeigt wird (Index klein, Home groß)."""
+    'sizes' sagt dem Browser, wie breit das Cover gezeigt wird (Index klein, Home groß).
+    'data-cursor' macht den Mauszeiger über der Zeile groß; mit 'cursor_label' steht Titel und Jahr daneben."""
     rows = []
     for number, p in enumerate(projects, start=1):
         rows.append(f"""      <li class="row" data-tags="{' '.join(p['tags'])}">
-        <a href="{{root}}work/{p['slug']}/">
+        <a href="{{root}}work/{p['slug']}/" data-cursor="{e(p['title'] + ' · ' + p['year']) if cursor_label else ''}">
           <span class="row__num">{number:02d}</span>
           {cover(p, sizes)}
           <span class="row__title">{e(p['title'])}</span>
@@ -227,7 +228,7 @@ def home_page(projects):
     <h1 class="visually-hidden">{e(SITE["name"])}</h1>
     <div class="home__stage">
       <ol class="rows">
-{project_rows(ordered, "(min-width: 900px) 50vw, 80vw")}
+{project_rows(ordered, "(min-width: 900px) 50vw, 80vw", cursor_label=True)}
       </ol>
       <p class="home__label" aria-hidden="true"></p>
     </div>

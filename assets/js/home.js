@@ -8,6 +8,8 @@
 //
 // Bei reduzierter Bewegung tut dieses Skript nichts: Dann bleibt die Startseite die schlichte Liste.
 
+import { tilt } from "./pointer.js";   // Maus oder Handyneigung, je -1 bis 1
+
 const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const stage = document.querySelector(".home__stage");
 
@@ -23,6 +25,9 @@ if (stage && !calm) {
   const RADIUS = 1.6;      // Kreisradius, als Vielfaches der Fensterbreite (Handy: Fensterhöhe mal 0.9)
   const TURN = 0.5;        // wie stark sich die Bilder mit dem Kreis mitdrehen (0 = gar nicht, 1 = ganz)
   const SMALL = 0.86;      // Größe der Bilder, die nicht vorn sind
+  const FADED = 0.4;       // Deckkraft der Bilder, die nicht vorn sind
+  const LEAN = 5;          // wie weit sich das vordere Bild der Maus oder dem Handy zuneigt, in Grad
+  const SHIFT = 2.5;       // wie weit sich das Bild in seinem Rahmen verschiebt, in Prozent
   const SOFTNESS = 0.11;   // Weichheit des Scrollens: kleiner = weicher und träger
   const DRIFT = 0.045;     // Tempo des Treibens, in Projekten pro Sekunde
   const WHEEL = 1 / 450;   // Mausrad: Projekte pro Pixel Scrollweg
@@ -36,6 +41,8 @@ if (stage && !calm) {
   let leaving = false;     // ein Projekt wurde angeklickt
   let last = performance.now();
   const placed = tiles.map(() => ({ scale: 1, turn: 0 }));   // aktuelle Größe und Drehung jedes Bildes
+  const hover = tiles.map(() => ({ on: false, amount: 0 }));  // Maus über dem Bild: es wächst leicht
+  let leanX = 0, leanY = 0;                                   // geglättete Neigung
 
   document.documentElement.classList.add("js-home");
 
@@ -56,6 +63,8 @@ if (stage && !calm) {
       target += speed * seconds;
     }
     position += (target - position) * SOFTNESS;
+    leanX += (tilt.x - leanX) * 0.08;
+    leanY += (tilt.y - leanY) * 0.08;
 
     const angleStep = (tileSize * SPACING) / radius;        // Winkel zwischen zwei Bildern
     let front = 0, nearest = Infinity;
@@ -72,18 +81,25 @@ if (stage && !calm) {
       const away = (1 - Math.cos(angle)) * radius;          // Weg vom Scheitel des Kreises weg
       const x = vertical ? -away : along;
       const y = vertical ? along : away;
-      const scale = SMALL + (1 - SMALL) * focus - Math.max(0, far - 1) * 0.03;
+      hover[i].amount += ((hover[i].on ? 1 : 0) - hover[i].amount) * 0.12;
+      const scale = (SMALL + (1 - SMALL) * focus - Math.max(0, far - 1) * 0.03) * (1 + 0.03 * hover[i].amount);
       const turn = (vertical ? -angle : angle) * TURN;
       placed[i] = { scale, turn };
 
-      tile.style.transform = `translate(${x}px, ${y}px) rotate(${turn}rad) scale(${scale})`;
-      tile.style.opacity = Math.min(1, Math.max(0, 2.6 - far));     // blendet zum Rand hin aus
+      // Räumliche Wirkung: Das vordere Bild neigt sich leicht zur Maus (oder mit dem Handy),
+      // und das Foto verschiebt sich in seinem Rahmen ein wenig dagegen.
+      const lean = `rotateY(${leanX * LEAN * focus}deg) rotateX(${-leanY * LEAN * focus}deg)`;
+      tile.style.transform = `translate(${x}px, ${y}px) perspective(1400px) rotate(${turn}rad) ${lean} scale(${scale})`;
+      tile.style.setProperty("--shift-x", `${-leanX * SHIFT * focus}%`);
+      tile.style.setProperty("--shift-y", `${-leanY * SHIFT * focus}%`);
+
+      // Deckkraft: vorn voll, daneben zurückgenommen, zum Rand hin ganz ausgeblendet
+      tile.style.opacity = (FADED + (1 - FADED) * focus) * Math.min(1, Math.max(0, 2.6 - far));
       // Feste Reihenfolge wie bei aufgefächerten Karten: Jedes Bild liegt über seinem Vorgänger.
       // Die Reihenfolge zweier sichtbarer Bilder wechselt nie, deshalb springt nichts nach vorn.
       tile.style.zIndex = 500 + Math.round(distance * 10);
       tile.style.pointerEvents = far < 3 ? "" : "none";
-      tile.style.setProperty("--glass", (1 - focus).toFixed(3));    // Glasschicht über Bildern, die nicht vorn sind
-      tile.style.setProperty("--label", far < 1.6 ? (0.3 + 0.7 * focus).toFixed(3) : 0);   // Schrift ausgegraut
+      tile.style.setProperty("--label", far < 1.6 ? 1 : 0);          // Titel nur bei den mittleren Bildern
     });
 
     tiles.forEach((tile, i) => tile.classList.toggle("is-front", i === front));
@@ -124,8 +140,8 @@ if (stage && !calm) {
 
   tiles.forEach((tile, i) => {
     // Treiben pausiert, solange die Maus über einem Bild ist
-    tile.addEventListener("mouseenter", () => (paused = true));
-    tile.addEventListener("mouseleave", () => (paused = false));
+    tile.addEventListener("mouseenter", () => { paused = true; hover[i].on = true; });
+    tile.addEventListener("mouseleave", () => { paused = false; hover[i].on = false; });
     // Tastatur: Wer mit Tab zu einem Projekt springt, bekommt es nach vorn geholt
     links[i].addEventListener("focus", () => { target += distanceOf(i, target); speed = 0; });
     // Klick: Das Bild wächst zur Projektseite
@@ -166,7 +182,10 @@ if (stage && !calm) {
 
     document.body.append(big);
     stage.classList.add("is-leaving");
-    const grow = big.animate([start, end], { duration: 1000, easing: "cubic-bezier(0.65, 0, 0.2, 1)", fill: "forwards" });
+    const timing = { duration: 1000, easing: "cubic-bezier(0.65, 0, 0.2, 1)", fill: "forwards" };
+    const grow = big.animate([start, end], timing);
+    // Das Foto war im Rahmen leicht vergrößert und verschoben (siehe oben); das läuft dabei aus.
+    big.querySelector("img").animate([{ transform: getComputedStyle(covers[i].querySelector("img")).transform }, { transform: "none" }], timing);
 
     // Währenddessen das große Bild laden, das auch die Projektseite zeigt. Erst wenn es da ist
     // (höchstens 1,5 Sekunden warten), wird gewechselt: So bleibt beim Wechsel nichts leer.

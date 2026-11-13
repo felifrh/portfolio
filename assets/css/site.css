@@ -283,15 +283,10 @@ ul, ol { list-style: none; }
 .js-home .row a { display: block; padding: 0; }
 .js-home .row .cover { display: block; width: 100%; aspect-ratio: 4 / 3; }
 .js-home .row__num { display: none; }
-/* Glasschicht über allen Bildern, die nicht vorn sind: milchig, leicht fliederfarben, heller Rand.
-   home.js blendet sie über --glass aus, je näher ein Bild der Mitte kommt. Das Bild selbst bleibt scharf. */
-.js-home .row .cover::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(140deg, rgb(255 255 255 / 0.66), rgb(169 178 255 / 0.34) 55%, rgb(255 255 255 / 0.52));
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.8);
-  opacity: var(--glass, 1);
-}
-/* Titel und Jahr: vorn schwarz, bei den Nachbarn ausgegraut (--label), bei Hover und Tastaturfokus voll */
+/* Das Foto ist im Rahmen leicht vergrößert, damit es sich mit Maus oder Handyneigung verschieben kann
+   (--shift-x und --shift-y setzt home.js). Bilder, die nicht vorn sind, sind weniger deckend (home.js). */
+.js-home .row .cover img { transform: translate(var(--shift-x, 0), var(--shift-y, 0)) scale(1.06); }
+/* Titel und Jahr unter den mittleren Bildern (--label); die Nachbarn sind mit ihrem Bild zurückgenommen */
 .js-home .row__title, .js-home .row__meta {
   position: absolute; left: 0; opacity: var(--label, 0); white-space: nowrap;
 }
@@ -325,6 +320,45 @@ ul, ol { list-style: none; }
 .enter .page-project .hero { position: fixed; inset: 0 0 auto 0; z-index: 15; }
 .enter .intro { opacity: 0; }
 .page-project .hero { z-index: 1; }   /* liegt beim Hineingleiten über der Einleitung */
+
+/* ---------- Mauszeiger ---------- */
+/* Runde Scheibe aus Milchglas (cursor.js), nur bei Mausbedienung. Der Systemzeiger wird erst
+   ausgeblendet, wenn die Scheibe wirklich da ist (Klasse js-cursor). */
+.cursor { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .js-cursor, .js-cursor a, .js-cursor button { cursor: none; }
+  .js-cursor .cursor {
+    --size: 24px;
+    display: block; position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none;
+  }
+  /* Die Scheibe selbst. Der dunkle Haarstrich außen hält sie auch auf Weiß sichtbar. */
+  .cursor::before {
+    content: ""; position: absolute; left: calc(var(--size) / -2); top: calc(var(--size) / -2);
+    width: var(--size); height: var(--size); border-radius: 50%;
+    background: rgb(169 178 255 / 0.32);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    border: 1px solid rgb(255 255 255 / 0.9);
+    box-shadow: 0 0 0 1px rgb(14 14 16 / 0.22);
+    transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+  }
+  .cursor.is-link { --size: 40px; }
+  /* über Links größer, aber klar: Das Wort darunter bleibt lesbar */
+  .cursor.is-link::before { background: rgb(169 178 255 / 0.3); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .cursor.is-project { --size: 68px; }
+  .cursor.is-pressed::before { background: rgb(169 178 255 / 0.7); }
+  .cursor.is-away { opacity: 0; }
+  /* Titel und Jahr neben der Scheibe (nur Startseite) */
+  .cursor__label {
+    position: absolute; left: calc(var(--size) / 2 + 0.6rem); top: -0.75rem; white-space: nowrap;
+    font-family: var(--font-mono); font-size: var(--mono); line-height: 1.5rem;
+    background: var(--white); color: var(--black); padding: 0 0.4rem;
+  }
+  .cursor__label:empty { display: none; }
+}
+/* Reduzierte Transparenz: schlichte getönte Fläche ohne Weichzeichner */
+@media (prefers-reduced-transparency: reduce) {
+  .cursor::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--lilac); }
+}
 
 /* ---------- Platzhalterseiten ---------- */
 .stub { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; min-height: 100svh; display: grid; gap: 1rem; align-content: start; }
