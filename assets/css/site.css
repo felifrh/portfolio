@@ -1,0 +1,243 @@
+/* site.css: die ganze Gestaltung der Seite. Farben, Schriften und Abstände stehen oben als Variablen. */
+
+/* ---------- Schriften (selbst gehostet, keine Fremdserver) ---------- */
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("../fonts/InstrumentSans-Variable.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+/* DM Mono ist der Platzhalter, bis die Webfont-Lizenz von Aether Mono geklärt ist (E20). */
+@font-face {
+  font-family: "DM Mono";
+  src: url("../fonts/DMMono-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* ---------- Variablen ---------- */
+:root {
+  --white: #ffffff;
+  --warm-grey: #ebe8e3;
+  --blue-grey: #c9d0d7;
+  --black: #0e0e10;
+  --lilac: #a9b2ff;        /* Flächen, Cursor, Fokus */
+  --lilac-text: #5b5fe0;   /* Text und Links auf Weiß (Kontrast wird am gebauten Stand geprüft, E6) */
+
+  --font-sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Aether Mono", "DM Mono", ui-monospace, Menlo, monospace;
+
+  --text: 1.125rem;        /* Fließtext 18 px, nie unter 16 px */
+  --mono: 0.8125rem;       /* Mono-Labels 13 px, nie unter 12 px */
+  --pad: clamp(1rem, 2.5vw, 2rem);
+  --nav-height: 3.5rem;
+  --edge: 130px;           /* Höhe des Glasübergangs an der Oberkante jeder Ebene */
+}
+
+/* ---------- Grundlage ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  font: 400 var(--text)/1.5 var(--font-sans);
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; font-weight: 400; }
+ul, ol { list-style: none; }
+:focus-visible { outline: 2px solid var(--lilac-text); outline-offset: 3px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.skip {
+  position: fixed; top: 0.5rem; left: 0.5rem; z-index: 30;
+  padding: 0.5rem 0.75rem; background: var(--black); color: var(--white);
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* ---------- Navigation ---------- */
+/* Liegt fest über allem. 'difference' hält sie auf Weiß, Grau, Schwarz und Bildern lesbar. */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  height: var(--nav-height); padding: 0 var(--pad);
+  color: #fff; mix-blend-mode: difference;
+}
+.nav a { text-decoration: none; padding: 0.75rem 0; }
+.nav a:hover { text-decoration: underline; }
+.nav nav { display: flex; gap: clamp(1rem, 3vw, 2.5rem); }
+
+/* ---------- Mono-Beschriftungen ---------- */
+.intro__tags, .facts dt, .layer__label, .row__num, .row__meta, .filter, .footer,
+.pager__link span, .end h3 {
+  font-family: var(--font-mono);
+  font-size: var(--mono);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Projektseite: Einleitung ---------- */
+.intro {
+  padding: calc(var(--nav-height) + 14vh) var(--pad) 2.5rem;
+  display: grid; gap: 1.25rem var(--pad);
+  grid-template-columns: repeat(12, 1fr);
+}
+.intro > * { grid-column: 1 / -1; }
+.intro__title {
+  font-size: clamp(3rem, 11vw, 10rem);
+  line-height: 0.95; letter-spacing: -0.035em;
+}
+.intro__line { font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.3; max-width: 28em; }
+.facts { display: grid; gap: 1rem var(--pad); margin-top: 1.5rem; }
+.facts dt { margin-bottom: 0.25rem; opacity: 0.6; }
+.facts dd { font-size: 1rem; line-height: 1.4; }
+@media (min-width: 900px) {
+  .intro__line { grid-column: 1 / 8; }
+  .facts { grid-template-columns: 0.6fr 1.4fr 1fr 1.4fr 1.4fr; }
+}
+@media (max-width: 899px) {
+  /* Mobil: Eckdaten als kompakter Block */
+  .facts > div { display: grid; grid-template-columns: 5.5rem 1fr; }
+}
+
+/* Großes Bild: fast fensterfüllend. Dasselbe Bild wie das Cover auf Home. */
+.hero { height: 92svh; }
+
+/* ---------- Projektseite: Ebenen ---------- */
+/* Jede Ebene beginnt durchsichtig und wird über --edge deckend (Glasübergang, Variante B).
+   Die Farbe richtet sich nach der Position der Ebene, nicht nach dem Projekt. */
+.layer {
+  --bg: var(--white);
+  position: relative;
+  min-height: calc(100svh + var(--edge));   /* steht die Ebene, liegt ihr Übergang oberhalb des Fensters */
+  margin-top: calc(-1 * var(--edge));
+  padding: var(--edge) var(--pad) calc(var(--edge) + 4rem);
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--bg) 0%, transparent) 0,
+    color-mix(in srgb, var(--bg) 45%, transparent) calc(var(--edge) * 0.45),
+    color-mix(in srgb, var(--bg) 88%, transparent) calc(var(--edge) * 0.8),
+    var(--bg) var(--edge));
+}
+.layer--intro { margin-top: 0; padding: 0; min-height: 0; background: var(--white); }
+.layer:nth-of-type(3n + 2) { --bg: var(--warm-grey); }
+.layer:nth-of-type(3n + 3) { --bg: var(--blue-grey); }
+.layer--end { --bg: var(--black) !important; color: var(--white); padding-bottom: 0; display: flex; flex-direction: column; }
+
+/* Weichzeichner in zwei Schichten: oben schwach, nach unten stärker. */
+.layer:not(.layer--intro)::before,
+.layer:not(.layer--intro)::after {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: var(--edge); pointer-events: none;
+}
+.layer:not(.layer--intro)::before {
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 50%);
+  mask-image: linear-gradient(to bottom, transparent, #000 50%);
+}
+.layer:not(.layer--intro)::after {
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 35%, #000);
+  mask-image: linear-gradient(to bottom, transparent 35%, #000);
+}
+/* Reduzierte Transparenz: kein Weichzeichner, nur der Farbverlauf. */
+@media (prefers-reduced-transparency: reduce) {
+  .layer::before, .layer::after { display: none; }
+}
+
+.layer__label {
+  position: absolute; z-index: 1;
+  top: calc(var(--edge) - 2.75rem); left: var(--pad);
+}
+.layer__grid { display: grid; gap: 2rem var(--pad); padding-top: calc(var(--nav-height) + 1.5rem); }
+.layer__text { max-width: 34em; display: grid; gap: 1em; align-self: start; }
+.layer__text p { font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+.layer__media { display: grid; gap: var(--pad); justify-items: start; }
+/* Breite und Höhe stehen fest, bevor das Bild geladen ist (nichts springt).
+   Hochformate werden auf Fensterhöhe begrenzt und stehen links im Rahmen. */
+.layer__media figure { width: 100%; }
+.layer__media img { width: 100%; max-height: 86svh; object-fit: contain; object-position: left top; }
+@media (min-width: 900px) {
+  .layer__grid { grid-template-columns: 5fr 7fr; }
+  /* Der Text bleibt stehen, während die Bilder daneben vorbeilaufen. */
+  .layer__text { position: sticky; top: calc(var(--nav-height) + 2rem); }
+}
+
+/* Übereinanderschieben. Nur wenn layers.js läuft: Ohne JavaScript bleibt es eine normale Seite,
+   weil eine Ebene, die höher ist als das Fenster, sonst abgeschnitten würde. */
+.js-layers .layer { position: sticky; top: var(--stick, 0px); }
+
+/* ---------- Projektseite: letzte Ebene ---------- */
+.end { display: grid; gap: 3rem var(--pad); padding-top: calc(var(--nav-height) + 1.5rem); }
+.end h3 { opacity: 0.6; margin-bottom: 0.75rem; }
+.end li { font-size: clamp(1.125rem, 1.5vw, 1.375rem); line-height: 1.45; }
+.pager {
+  display: grid; gap: 2rem var(--pad); margin-top: auto; padding-top: 6rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+.pager__link { text-decoration: none; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; letter-spacing: -0.03em; }
+.pager__link span { display: block; margin-bottom: 0.5rem; opacity: 0.6; letter-spacing: 0.01em; }
+.pager__link:hover { color: var(--lilac); }
+@media (min-width: 900px) { .end { grid-template-columns: 5fr 7fr; } }
+
+/* ---------- Fußzeile ---------- */
+.footer { display: flex; gap: 1.5rem; padding: 3rem 0 1.5rem; }
+.footer span { margin-right: auto; }
+.index .footer, .stub .footer { padding-inline: 0; }
+
+/* ---------- Cover als Ausschnitt ---------- */
+/* Der Rahmen bestimmt das Format; covers.css legt das volle Bild so hinein, dass der
+   Fokusbereich ihn füllt. Ohne eigenes Format ist der Rahmen 4:3. */
+.cover { display: block; position: relative; overflow: hidden; container-type: size; aspect-ratio: 4 / 3; }
+.cover.hero { aspect-ratio: auto; }
+.cover img { position: absolute; max-width: none; height: auto; }
+
+/* ---------- Index ---------- */
+.index { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; }
+.filter { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin-bottom: 2rem; }
+.filter button {
+  font: inherit; color: inherit; background: none; border: 0; cursor: pointer;
+  padding: 0.75rem 0; min-height: 2.75rem;
+}
+.filter button:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+.filter button[aria-pressed="true"] { color: var(--lilac-text); text-decoration: underline; text-underline-offset: 0.3em; }
+
+.rows { border-top: 1px solid currentColor; }
+.row { border-bottom: 1px solid currentColor; transition: opacity 0.3s ease; }
+.row a {
+  display: grid; align-items: center; gap: 0.25rem 1rem;
+  grid-template-columns: 5rem 1fr; grid-template-areas: "cover title" "cover meta";
+  padding: 0.9rem 0; text-decoration: none;
+}
+.row__num { display: none; }
+.row .cover { grid-area: cover; }
+.row__title { grid-area: title; font-size: clamp(1.75rem, 6.5vw, 5.5rem); line-height: 1; letter-spacing: -0.03em; }
+.row__meta { grid-area: meta; }
+.row.is-dimmed { opacity: 0.25; }          /* passt nicht zum Filter: abblenden statt verschwinden */
+
+@media (min-width: 900px) {
+  .row a { grid-template-columns: 4rem 1fr auto; grid-template-areas: "num title meta"; align-items: baseline; padding: 1.1rem 0; }
+  .row__num { display: block; grid-area: num; }
+  .row__meta { text-align: right; }
+  .row .cover { display: none; }             /* am Desktop folgt das Cover der Maus (preview.js) */
+  /* Hover: die anderen Zeilen blenden ab */
+  .rows:hover .row:not(:hover) { opacity: 0.25; }
+}
+
+/* Cover, das auf dem Index der Maus folgt. Die Glasscheibe kommt in Phase 4 dazu. */
+.preview {
+  position: fixed; left: 0; top: 0; z-index: 10; width: 22rem; pointer-events: none;
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.preview.is-visible { opacity: 1; }
+
+/* ---------- Platzhalterseiten ---------- */
+.stub { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; min-height: 100svh; display: grid; gap: 1rem; align-content: start; }
+.stub h1 { font-size: clamp(3rem, 11vw, 10rem); line-height: 0.95; letter-spacing: -0.035em; }
+
+/* ---------- Reduzierte Bewegung ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}

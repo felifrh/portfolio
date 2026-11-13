@@ -1,0 +1,62 @@
+{
+  "equal-matter/ddw26_36_FFerchKWittemannMADFM.jpg": {
+    "name": "ddw26-36-fferchkwittemannmadfm",
+    "w": 3096,
+    "h": 4128,
+    "widths": [
+      640,
+      1200,
+      2000
+    ]
+  },
+  "equal-matter/ddw26_34_FFerchKWittemannMADFM.jpg": {
+    "name": "ddw26-34-fferchkwittemannmadfm",
+    "w": 4128,
+    "h": 3096,
+    "widths": [
+      640,
+      1200,
+      2000
+    ]
+  },
+  "equal-matter/equalmatter_1.png": {
+    "name": "equalmatter-1",
+    "w": 5039,
+    "h": 3359,
+    "widths": [
+      640,
+      1200,
+      2000
+    ]
+  },
+  "equal-matter/ddw26_29_FFerchKWittemannMADFM.jpg": {
+    "name": "ddw26-29-fferchkwittemannmadfm",
+    "w": 3096,
+    "h": 4128,
+    "widths": [
+      640,
+      1200,
+      1800
+    ]
+  },
+  "equal-matter/equalmatter_3.png": {
+    "name": "equalmatter-3",
+    "w": 5039,
+    "h": 3359,
+    "widths": [
+      640,
+      1200,
+      2000
+    ]
+  },
+  "equal-matter/equalmatter_4.png": {
+    "name": "equalmatter-4",
+    "w": 5039,
+    "h": 3359,
+    "widths": [
+      640,
+      1200,
+      2000
+    ]
+  }
+}

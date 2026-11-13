@@ -1,0 +1,11 @@
+{
+  "name": "Felicitas Ferch",
+  "description": "Interaction designer working with tangible and material interfaces.",
+  "url": "https://feliferch.com",
+  "tags": [
+    { "id": "installation-exhibition", "label": "Installation & Exhibition" },
+    { "id": "material-making", "label": "Material & Making" },
+    { "id": "interface-realtime", "label": "Interface & Realtime" },
+    { "id": "identity-editorial", "label": "Identity & Editorial" }
+  ]
+}

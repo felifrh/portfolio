@@ -1,0 +1,8 @@
+/* Erzeugt von build.py aus cover.focus. Nicht von Hand ändern. */
+.cover--equal-matter img {
+  --w: max(100cqw / 0.8398, 100cqh / 0.4734 * 0.7500);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 0.7500);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.5549 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.6856 * var(--h), 0px);
+}

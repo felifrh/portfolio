@@ -1,0 +1,82 @@
+{
+  "slug": "equal-matter",
+  "title": "equal matter",
+  "year": "2025 – 2026",
+  "sortKey": 2026,
+  "order": 2,
+  "homeOrder": 1,
+  "tags": ["installation-exhibition"],
+  "oneLiner": "An interactive installation in which human, machine and material take part as equals.",
+
+  "cover": {
+    "file": "ddw26_36_FFerchKWittemannMADFM.jpg",
+    "focus": [418, 1853, 3018, 3807],
+    "alt": "A hand touches the water in a black bowl; bright ring-shaped light reflections ripple across the dark surface."
+  },
+
+  "facts": {
+    "Year": "2025 – 2026",
+    "Context": "Future of Making, M.A. Design & Future Making, Pforzheim University",
+    "Team": "with Katharina Wittemann",
+    "Role": "concept, code, setup and physical computing, documentation and paper (50/50)",
+    "Tools": "capacitive sensing, Raspberry Pi Pico 2 W, Python, speaker, webcam, 3D printing"
+  },
+
+  "sections": [
+    {
+      "label": "Question",
+      "text": [
+        "How can human, machine and material collaborate as equals, so that none of the three takes a superior role? equal matter explores this question as an interactive installation built around a bowl of water."
+      ],
+      "media": [
+        {
+          "file": "ddw26_34_FFerchKWittemannMADFM.jpg",
+          "alt": "Two people stand at a black cylindrical plinth and touch the water in the bowl on top. Behind them, a projected grid of white ring shapes; to the right, a small 3D printer."
+        }
+      ]
+    },
+    {
+      "label": "Interaction",
+      "text": [
+        "Visitors touch the water. A capacitive sensor reads the gesture and translates it into continuously changing sound frequencies. The water starts to vibrate, and shifting wave patterns appear on its surface. They distort the reflection of a ring light, which a camera captures in real time. From these fleeting configurations the system generates images and 3D models: the reflections become shapes that are printed and turned into silver-plated rings, material traces of a moment in which human gesture, machine behavior and material response meet."
+      ],
+      "media": [
+        {
+          "file": "equalmatter_1.png",
+          "alt": "Close-up from above: a hand rests on the still water in the black bowl, a white light reflection bends on the surface."
+        },
+        {
+          "file": "ddw26_29_FFerchKWittemannMADFM.jpg",
+          "alt": "A visitor touches the vibrating water, its surface covered in fine wave patterns. On the floor, plotted lettering reads “interact with the water”."
+        }
+      ]
+    },
+    {
+      "label": "Material",
+      "text": [
+        "Building it meant listening to the water. We tested frequencies systematically and found that between roughly 48 and 80 Hz the water answers in patterns that are readable and distinct from each other, so the material itself helps decide the range of the interaction. A gallery next to the installation shows every captured moment as it happens."
+      ],
+      "media": [
+        {
+          "file": "equalmatter_3.png",
+          "alt": "In a darkened room, a projection shows a grid of forty white ring shapes, each one a captured light reflection; the bowl stands in the foreground under a lamp."
+        },
+        {
+          "file": "equalmatter_4.png",
+          "alt": "A small 3D-printed ring hangs on a thin thread in front of the blurred projection of white ring shapes."
+        }
+      ]
+    }
+  ],
+
+  "video": null,
+
+  "exhibitions": [
+    "Werkschau Pforzheim, February 2026 (A.K.T; exhibition space)",
+    "Milan Design Week, April 2026",
+    "Dutch Design Week, 17 – 25 October 2026"
+  ],
+  "links": [],
+
+  "consent": "Persons shown may be shown (Feli, 13.11.2026, E12)."
+}
