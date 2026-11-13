@@ -1,8 +1,78 @@
 /* Erzeugt von build.py aus cover.focus. Nicht von Hand ändern. */
+.cover--ddw-something-beyond img {
+  --w: max(100cqw / 1.0000, 100cqh / 0.5300 * 0.7060);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 0.7060);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.5000 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.4150 * var(--h), 0px);
+}
 .cover--equal-matter img {
   --w: max(100cqw / 0.8398, 100cqh / 0.4734 * 0.7500);   /* Bildbreite: Fokus füllt den Rahmen */
   --h: calc(var(--w) / 0.7500);
   width: var(--w);
   left: clamp(100cqw - var(--w), 50cqw - 0.5549 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
   top: clamp(100cqh - var(--h), 50cqh - 0.6856 * var(--h), 0px);
+}
+.cover--symbiotic-machine img {
+  --w: max(100cqw / 0.9043, 100cqh / 0.6320 * 0.7500);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 0.7500);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.4986 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5613 * var(--h), 0px);
+}
+.cover--from-gesture-to-object img {
+  --w: max(100cqw / 0.9812, 100cqh / 0.9543 * 1.3333);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 1.3333);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.5071 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.4982 * var(--h), 0px);
+}
+.cover--fluechtige-formen img {
+  --w: max(100cqw / 1.0000, 100cqh / 0.5000 * 0.6667);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 0.6667);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.5000 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.7500 * var(--h), 0px);
+}
+.cover--human-ai img {
+  --w: max(100cqw / 0.8686, 100cqh / 0.9530 * 1.4957);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 1.4957);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.4880 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5175 * var(--h), 0px);
+}
+.cover--active-wear img {
+  --w: max(100cqw / 0.9712, 100cqh / 1.0000 * 1.3727);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 1.3727);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.4998 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5000 * var(--h), 0px);
+}
+.cover--auratic-digitalism img {
+  --w: max(100cqw / 1.0000, 100cqh / 0.5000 * 0.6667);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 0.6667);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.5000 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.6200 * var(--h), 0px);
+}
+.cover--luv-and-lee img {
+  --w: max(100cqw / 0.9142, 100cqh / 1.0000 * 1.4588);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 1.4588);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.4916 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5000 * var(--h), 0px);
+}
+.cover--inter img {
+  --w: max(100cqw / 0.9236, 100cqh / 0.9670 * 1.3962);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 1.3962);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.4998 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5000 * var(--h), 0px);
+}
+.cover--inside-a-server img {
+  --w: max(100cqw / 0.6353, 100cqh / 1.0000 * 2.0986);   /* Bildbreite: Fokus füllt den Rahmen */
+  --h: calc(var(--w) / 2.0986);
+  width: var(--w);
+  left: clamp(100cqw - var(--w), 50cqw - 0.6010 * var(--w), 0px);   /* Fokus mittig, Bild nie über den Rand */
+  top: clamp(100cqh - var(--h), 50cqh - 0.5000 * var(--h), 0px);
 }

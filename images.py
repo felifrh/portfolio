@@ -3,7 +3,8 @@
 images.py: bringt die Bilder aus dem Vault in Webgröße ins Repository.
 
 Aufruf:   python3 images.py "/Pfad/zum/Vault/00_Allgemein/Attachements"
-Eingabe:  die Bildnamen, die in content/projects/*.json stehen (cover.file, media[].file)
+Eingabe:  die Bildnamen, die in content/projects/*.json stehen (cover.file, media[].file).
+          Videos übernimmt videos.py.
 Ausgabe:  assets/media/<slug>/<name>-<breite>.webp  und  assets/media/manifest.json
 
 Warum so: Nur Bilder, die in einer Datendatei genannt sind, landen im öffentlichen
@@ -26,22 +27,25 @@ def clean_name(filename):
     return re.sub(r"[^a-z0-9]+", "-", Path(filename).stem.lower()).strip("-")
 
 
-def wanted_files(project):
-    """Alle Bilddateien, die ein Projekt nennt (Cover und Abschnitte)."""
-    files = [project["cover"]["file"]]
+def wanted_images(project):
+    """Alle Bilder, die ein Projekt nennt (Cover und Abschnitte), ohne Videos."""
+    items = [project["cover"]]
     for section in project["sections"]:
-        files += [m["file"] for m in section.get("media", []) if m.get("type") != "video"]
-    return files
+        items += [m for m in section.get("media", []) if m.get("type") != "video"]
+    return items
 
 
 def main(source_dir):
     source_dir = Path(source_dir)
-    manifest = {}
+    manifest_file = OUT / "manifest.json"
+    # Vorhandene Einträge bleiben stehen (videos.py schreibt in dieselbe Datei)
+    manifest = json.loads(manifest_file.read_text(encoding="utf-8")) if manifest_file.exists() else {}
     for path in sorted((ROOT / "content" / "projects").glob("*.json")):
         project = json.loads(path.read_text(encoding="utf-8"))
         slug = project["slug"]
         (OUT / slug).mkdir(parents=True, exist_ok=True)
-        for filename in wanted_files(project):
+        items = wanted_images(project)
+        for filename in dict.fromkeys(m["file"] for m in items):   # jede Datei nur einmal
             found = list(source_dir.rglob(filename))
             if not found:
                 print(f"FEHLT  {slug}: {filename}")
@@ -62,7 +66,7 @@ def main(source_dir):
                     resized.save(target, "WEBP", quality=80, method=6)  # ohne exif= : keine Metadaten
             manifest[f"{slug}/{filename}"] = {"name": name, "w": w, "h": h, "widths": widths}
             print(f"ok     {slug}: {filename} -> {widths}")
-    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    manifest_file.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 if __name__ == "__main__":

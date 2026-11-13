@@ -1,0 +1,80 @@
+{
+  "slug": "inter",
+  "title": "inter",
+  "year": "2021",
+  "sortKey": 2021,
+  "order": 1,
+  "homeOrder": 10,
+  "tags": [
+    "identity-editorial"
+  ],
+  "oneLiner": "Unisex garments made for the equality of all people.",
+  "cover": {
+    "file": "Bildschirmfoto 2024-04-04 um 00.41.49.png",
+    "alt": "Catalogue spread: two people in lilac knitwear, white blouses and skirts lean back in a field under a grey sky; on the right page a close-up of their clasped hands.",
+    "focus": [
+      90,
+      28,
+      2277,
+      1668
+    ]
+  },
+  "facts": {
+    "Year": "2021",
+    "Context": "fashion course, 4th semester, University of Applied Sciences Würzburg",
+    "Team": "with Rebecca Burkhardt",
+    "Role": "design, pattern making and sewing (50/50), styling, film, photography, editorial design of the course catalogue",
+    "Tools": "fashion design, upcycling, styling, film, photography, editorial design"
+  },
+  "sections": [
+    {
+      "label": "Between",
+      "text": [
+        "Inter stands for \"between two or more\": for equality, unconditional togetherness and the basic pillar of resilience that these values form. Why should the shells we wear divide and categorize us? We want to break with clichés and roles. Men can wear skirts, too. Clothing is clothing, and we humans are the core."
+      ],
+      "media": [
+        {
+          "file": "Bildschirmfoto 2024-04-04 um 00.41.28.png",
+          "alt": "Catalogue spread: on the left the names Rebecca Burkhardt and Felicitas Ferch and the project text, on the right two people in white blouses and lilac knitwear holding each other, with the hand-drawn title inter."
+        }
+      ]
+    },
+    {
+      "label": "Garments",
+      "text": [
+        "All garments are either reassembled from existing clothes or tailored from scratch. The looks combine flowing white blouses and skirts with lilac knitwear and sage-green suit pieces, photographed outdoors with both of us as models. We also filmed the project, and I edited the film. In addition we designed and produced the catalogue for the whole course, from layout to final print."
+      ],
+      "media": [
+        {
+          "file": "IMG_2426.jpg",
+          "alt": "Two people stand in a green meadow: one in a brown waistcoat over a lilac knitted top with wide white sleeves, the other in a sage-green jacket over a lilac corset and a long white skirt."
+        },
+        {
+          "file": "IMG_2504.jpg",
+          "alt": "Portrait of both against a cloudy sky, leaning into each other, in lilac knitwear and white blouses."
+        },
+        {
+          "file": "IMG_2460.jpg",
+          "alt": "Back view: a lilac corset laced over a wide white blouse and a long white skirt."
+        },
+        {
+          "file": "IMG_2542.jpg",
+          "alt": "Detail: two clasped hands between a lilac knitted top, sage-green trousers and a white skirt, with thistles in the foreground."
+        },
+        {
+          "file": "IMG_2520_2.jpg",
+          "alt": "Both lean far back in a field and look up into a grey sky."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [],
+  "links": [
+    {
+      "label": "Video on Vimeo",
+      "url": "https://vimeo.com/576202722"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

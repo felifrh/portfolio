@@ -1,0 +1,86 @@
+{
+  "slug": "human-ai",
+  "title": "Human AI",
+  "year": "2023 – 2025",
+  "sortKey": 2025,
+  "order": 3,
+  "homeOrder": 6,
+  "tags": [
+    "interface-realtime"
+  ],
+  "oneLiner": "An interactive installation that makes emotions in a conversation with an AI visible.",
+  "cover": {
+    "file": "IMG_8920.jpg",
+    "alt": "A round projection on the floor shows a digital stone shimmering in many colours; a real stone hangs on a wire in front of it.",
+    "focus": [
+      94,
+      48,
+      1614,
+      1163
+    ]
+  },
+  "facts": {
+    "Year": "2023 – 2025",
+    "Context": "Designer in Lab 2023, in collaboration with Fraunhofer IIS, group Human Centered Innovations",
+    "Team": "with Jan Scheffel",
+    "Role": "design and development; main focus on the physical setup",
+    "Tools": "Three.js, Next.js, GLSL shaders, Arduino, speech and emotion analysis"
+  },
+  "sections": [
+    {
+      "label": "Question",
+      "text": [
+        "How do you feel when you talk or think about artificial intelligence? Human AI invites visitors into a direct, interactive conversation with an AI and encourages them to explore thoughts, opinions and feelings in dialogue."
+      ],
+      "media": [
+        {
+          "file": "2024-06-27 FDZ Deutsche Museum_7798 Kopie.jpg",
+          "alt": "A visitor stands among stones hanging from the ceiling and holds one of them in both hands; on the floor in front, a round projection shows a digital stone."
+        }
+      ]
+    },
+    {
+      "label": "Dialogue",
+      "text": [
+        "The installation consists of stones hanging from the ceiling. When a visitor lifts one, a dialogue begins: the AI asks a question and the visitor answers by speaking. During the conversation the emotions in the answers are analysed and transferred in real time to a digital counterpart of the stone, which deforms, moves and changes colour with each emotion. When the dialogue ends, the stone takes its place in an overview of all previous conversations."
+      ],
+      "media": [
+        {
+          "file": "2024-06-27 FDZ Deutsche Museum_7806 Kopie.jpg",
+          "alt": "A stone hangs on a wire with a carabiner; behind it, out of focus, the overview of digital stones in violet tones."
+        },
+        {
+          "type": "video",
+          "file": "HumanAI-at-IC-Video.mov",
+          "mode": "controls",
+          "alt": "The installation at Innovative Citizen in Dortmund: stones hang above a round floor projection in which a digital stone slowly changes."
+        }
+      ]
+    },
+    {
+      "label": "Aim",
+      "text": [
+        "The project aims to build a deeper understanding of how AI is accepted in society and to give participants and researchers an intuitive way into the topic by making emotional reactions tangible. It also shows the limits of AI and invites people to see it as a tool shaped by human interaction. For privacy, only the ID of each stone is stored; all dialogues are anonymized after analysis.",
+        "Together with Jan Scheffel I developed the installation and the web-based dialogue system. My main focus was the physical setup, built with Arduino and click sensors."
+      ],
+      "media": []
+    }
+  ],
+  "exhibitions": [
+    "Festival der Zukunft, Deutsches Museum, Munich, 27 – 30 June 2024: installation, three guided tours, panel on AI and the museum of the future",
+    "Innovative Citizen, Dortmund, 29 – 30 November 2024: installation, talk and workshop",
+    "munich creative business week, Science Communication Lab, Deutsches Museum, 13 – 18 May 2025"
+  ],
+  "links": [
+    {
+      "label": "Video on Vimeo",
+      "url": "https://vimeo.com/1004458114"
+    },
+    {
+      "label": "Fraunhofer project page",
+      "url": "https://www.art-design.fraunhofer.de/de/programme/artist-designer-in-lab/-human-ai----foerderung-von-empathischer-mensch-ki-interaktionsg.html"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

@@ -1,0 +1,80 @@
+{
+  "slug": "ddw-something-beyond",
+  "title": "DDW something.beyond",
+  "year": "2026",
+  "sortKey": 2026,
+  "order": 1,
+  "homeOrder": 1,
+  "tags": [
+    "identity-editorial"
+  ],
+  "oneLiner": "The visual identity and a smartphone website for Pforzheim University's exhibition at Dutch Design Week 2026.",
+  "cover": {
+    "file": "6ae4d8f94f2529ef485ba3e4_KatharinaWittemann_DDW26_poster.jpg",
+    "alt": "Exhibition poster in grey tones: a tower of white objects, overlaid with scattered black and white dots and the title something.beyond.",
+    "focus": [
+      0,
+      150,
+      706,
+      680
+    ]
+  },
+  "facts": {
+    "Year": "2026",
+    "Context": "exhibition \"something.beyond\", Faculty of Design, Pforzheim University, Dutch Design Week",
+    "Team": "with Katharina Wittemann",
+    "Role": "developed the identity together; focus on the digital part (website, NFC, animation, reel)",
+    "Tools": "corporate identity, print, web design, animation, NFC programming"
+  },
+  "sections": [
+    {
+      "label": "Identity",
+      "text": [
+        "For the Faculty of Design's exhibition at Dutch Design Week 2026 we developed a corporate identity for print and digital. It is built from dots modelled on the perforated stones used in the exhibition. Print consists of take-away postcards describing each project and a poster; digital of an animation, an Instagram reel and a website."
+      ],
+      "media": [
+        {
+          "type": "video",
+          "file": "6ae4d798b2e33e4d90db2242_KatharinaWittemann_DDW26.gif",
+          "mode": "loop",
+          "alt": "Animation of the take-away postcards: a black-and-white photograph of an exhibit on the left, its title and description on the right, with dots drifting across both."
+        },
+        {
+          "file": "6ae4d8f94f2529ef485ba3e4_KatharinaWittemann_DDW26_poster.jpg",
+          "alt": "The full exhibition poster: a tower of white objects on grey, the dotted title something.beyond, the names of the exhibitors and a row of small project images."
+        }
+      ]
+    },
+    {
+      "label": "Website",
+      "text": [
+        "The title \"something.beyond\" becomes tangible through NFC chips placed at every exhibit. One scan with a phone leads directly to the respective project with further images and texts. The website is designed entirely for smartphones, with light and dark mode, and gives an overview of all projects at a glance. The concept was developed without AI; because of the short time, AI was used only to refine the website."
+      ],
+      "media": [
+        {
+          "type": "video",
+          "file": "ScreenRecording_10-22-2026 12-46-58_1.mov",
+          "mode": "loop",
+          "alt": "Screen recording of the website on a phone: a cloud of dots opens, then project cards appear one behind the other, the first one titled sampling – a little different."
+        },
+        {
+          "type": "video",
+          "file": "something-beyond-intro-2-lines_1.mp4",
+          "mode": "loop",
+          "alt": "The reel: black-and-white exhibits appear one after another while white dots gather into the title something.beyond."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Dutch Design Week, Eindhoven, 17 – 25 October 2026"
+  ],
+  "links": [
+    {
+      "label": "something-beyond.de",
+      "url": "https://something-beyond.de"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

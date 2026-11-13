@@ -1,0 +1,94 @@
+{
+  "slug": "active-wear",
+  "title": "Active Wear",
+  "year": "2023",
+  "sortKey": 2023,
+  "order": 1,
+  "homeOrder": 7,
+  "tags": [
+    "interface-realtime"
+  ],
+  "oneLiner": "An installation of twenty shirts that explores digital activism and the emotions behind it.",
+  "cover": {
+    "file": "screen-video-activewear.png",
+    "alt": "A white shirt with the word DEMOCRATIC hangs in the background; in front, a phone screen shows the AR layer with yellow text panels, held up by a visitor.",
+    "focus": [
+      36,
+      0,
+      2497,
+      1846
+    ]
+  },
+  "facts": {
+    "Year": "2023",
+    "Context": "Bachelor's project, supervised by Prof. Erich Schöls",
+    "Team": "solo project",
+    "Role": "concept, screen printing, AR development",
+    "Tools": "Unity (C#, AR Foundation, ARKit), screen printing, graphic design"
+  },
+  "sections": [
+    {
+      "label": "Aim",
+      "text": [
+        "Active Wear is an installative examination of digital activism and the emotionality behind it. The aim is to give access to activist practices and to encourage participation."
+      ],
+      "media": [
+        {
+          "file": "IMG_7182.jpg",
+          "alt": "White shirts with black screen prints hang from the ceiling on thin cords in a dark room; words such as SOCIAL and COURAGE are printed on them."
+        }
+      ]
+    },
+    {
+      "label": "Twenty shirts",
+      "text": [
+        "For activist actions to succeed, many different people have to come together. Here they are represented by twenty second-hand shirts, each with its own screen print and a title for an aspect of activism that matters for democracy. The prints derive from activist or physical photographs and carry a short text on the inside. As in social movements, some shirts are passive and analogue, others proactively call for interaction: scanned with a smartphone they open augmented-reality experiences that question, provoke or invite action."
+      ],
+      "media": [
+        {
+          "file": "IMG_7364.jpg",
+          "alt": "A white T-shirt held by clips in front of a grey wall, printed with the word DECISIONS and a fine line drawing."
+        },
+        {
+          "file": "IMG_7328.jpg",
+          "alt": "A hand turns a sleeve inside out and reveals a short printed text on the inside of the shirt."
+        },
+        {
+          "file": "IMG_7218.jpg",
+          "alt": "Two visitors seen from behind; one holds up a phone and scans a hanging shirt."
+        },
+        {
+          "file": "Pasted image 20261031193510.png",
+          "alt": "Four phone screens of the AR layer: a golden sphere on a shirt, a yellow panel with a date and place of a protest, large yellow lettering, and a counter above a glowing button."
+        }
+      ]
+    },
+    {
+      "label": "Two layers",
+      "text": [
+        "The shirts are deliberately monochrome, while the digital layer uses the strong colors of activist visual language. One typeface connects both. The title plays with \"activewear\", sportswear turned into a vehicle for civic engagement."
+      ],
+      "media": [
+        {
+          "file": "IMG_7543.jpg",
+          "alt": "Detail of a screen print: the word COURAGE in white on a black bar, surrounded by outlined figures holding signs."
+        },
+        {
+          "file": "IMG_7562.jpg",
+          "alt": "A hand holds a screen-printing frame with a red edge against a white wall."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Bergwerk exhibition, Würzburg, July 2023"
+  ],
+  "links": [
+    {
+      "label": "Video on Vimeo",
+      "url": "https://vimeo.com/940988151"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

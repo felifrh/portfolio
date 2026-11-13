@@ -1,0 +1,61 @@
+{
+  "slug": "luv-and-lee",
+  "title": "Luv & Lee",
+  "year": "2020 – 2022",
+  "sortKey": 2022,
+  "order": 1,
+  "homeOrder": 9,
+  "tags": [
+    "identity-editorial"
+  ],
+  "oneLiner": "The student magazine of the Faculty of Design in Würzburg, three issues as part of the head team.",
+  "cover": {
+    "file": "Pasted image 20261031215616.png",
+    "alt": "The magazine issue Hau Ruck! lies on a dark stone block: a black cover with white lettering and a glass hammer.",
+    "focus": [
+      60,
+      0,
+      1647,
+      1190
+    ]
+  },
+  "facts": {
+    "Year": "2020 – 2022",
+    "Context": "student magazine, Faculty of Design, University of Applied Sciences Würzburg",
+    "Team": "changing head team of students",
+    "Role": "head team member for three issues: Tatütata, Soft Matter, Hau Ruck!",
+    "Tools": "graphic design, art direction, print preparation"
+  },
+  "sections": [
+    {
+      "label": "Magazine",
+      "text": [
+        "Luv & Lee has been published at the Faculty of Design for over eleven years. Students can express themselves on a changing theme, and the free works are printed in a collected magazine. The head team sets the topic and design framework, supervises the contributors and organizes the printing."
+      ],
+      "media": [
+        {
+          "file": "Pasted image 20261031215633.png",
+          "alt": "Cover of the issue Soft Matter, Luv & Lee issue 14: white lettering on a yellow-green and white pattern, lying on a dark surface."
+        }
+      ]
+    },
+    {
+      "label": "Three issues",
+      "text": [
+        "I was part of the head team for three issues. Besides supervising contributors and planning the print process with the printing house, I made my own contributions: for Tatütata a collaboration with a kindergarten, where children painted what they associate with the word, plus objects in warning colors and vest patterns; for Soft Matter \"Artificial Sunset\", a visualization of weather data and light pollution of different cities; for Hau Ruck! a 3D animation with glass that can be activated via AR."
+      ],
+      "media": [
+        {
+          "file": "Pasted image 20261031215626.png",
+          "alt": "Collage of magazine pages: a newspaper-style spread with stickers, a spread with a round photograph, the Hau Ruck! cover seen through a phone with an AR animation, and a black spread with yellow lines."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Sold online, in shops and at the semester exhibitions"
+  ],
+  "links": [],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

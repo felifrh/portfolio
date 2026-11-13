@@ -1,0 +1,79 @@
+{
+  "slug": "fluechtige-formen",
+  "title": "Flüchtige Formen",
+  "year": "2025",
+  "sortKey": 2025,
+  "order": 2,
+  "homeOrder": 5,
+  "tags": [
+    "installation-exhibition",
+    "material-making"
+  ],
+  "oneLiner": "A material study of paper, glass and clay as partners that respond rather than obey.",
+  "cover": {
+    "file": "madfm-werkschau-284.jpg",
+    "alt": "Paper works with burn marks and small folded paper objects lie on a white block inside a glass showcase.",
+    "focus": [
+      0,
+      2592,
+      3456,
+      5184
+    ]
+  },
+  "facts": {
+    "Year": "2025",
+    "Context": "Future of Making I, M.A. Design & Future Making, Pforzheim University; supervised by Prof. Christine Lüdeke",
+    "Team": "solo project",
+    "Role": "research, making, documentation, design of the print bundle",
+    "Tools": "paper, borosilikate glass (flameworking), ceramics, fire, water"
+  },
+  "sections": [
+    {
+      "label": "Dialogue",
+      "text": [
+        "Flüchtige Formen (Fleeting Forms) explores the transient moments of making through an experimental encounter with three materials: paper, glass and clay. At its center is the dialogue between human and material: away from control, towards a partnership with materials that react and answer."
+      ],
+      "media": [
+        {
+          "file": "DSC01419.jpg",
+          "alt": "A bright exhibition room: objects on white plinths and in glass showcases, posters in soft colour gradients on the wall, a person reaching towards one of them."
+        }
+      ]
+    },
+    {
+      "label": "Encounters",
+      "text": [
+        "For each material there are three encounters, nine in total, each starting without a fixed goal and following intuition. Paper is torn, folded, dissolved in water and drawn on with fire. Glass is cut and blown in the flame, with the maker's own breath as the tool. Clay is built by hand, and at one point pressed through a syringe, turning the maker into a human clay 3D printer. Failure, cracks and burns are part of the findings: attention to ephemeral processes, not mastery, leads to a deeper understanding of material."
+      ],
+      "media": [
+        {
+          "file": "madfm-werkschau-284.jpg",
+          "alt": "Two glass showcases: in the lower one paper works with burn marks and folded paper objects, on the upper one a small booklet with a yellow gradient."
+        }
+      ]
+    },
+    {
+      "label": "Print bundle",
+      "text": [
+        "The documentation is a bundle of five prints, each on its own paper and in its own format: glossy paper, tracing paper, a folded A2 poster, a sketchpad on thick cardboard and a closing booklet. Together they hold what cannot be fixed: the experience of making."
+      ],
+      "media": [
+        {
+          "file": "madfm-werkschau-192.jpg",
+          "alt": "Two hands hold the print bundle: a red sheet, a grey one and a small yellow booklet, each with looping hand-drawn lettering; glass objects in a showcase behind."
+        },
+        {
+          "file": "DSC01435.jpg",
+          "alt": "A person sits in front of a window in the exhibition room and holds the print bundle up to the camera."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Final presentation, 26 June 2025",
+    "Werkschau Pforzheim, July 2025: print bundle and objects"
+  ],
+  "links": [],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

@@ -12,10 +12,12 @@ so ausgeliefert, wie sie hier liegen.
 | `content/projects/<slug>.json` | Ein Projekt: Titel, Jahr, Tags, Eckdaten, Cover mit Fokusbereich, Abschnitte, Ausstellungen. |
 | `build.py` | Erzeugt aus den Datendateien alle HTML-Seiten und `assets/css/covers.css`. |
 | `images.py` | Holt die genannten Bilder aus dem Vault, verkleinert sie, entfernt Metadaten. |
+| `videos.py` | Dasselbe für Videos und animierte GIFs: H.264 in MP4, dazu ein Standbild. Braucht ffmpeg. |
 | `assets/css/site.css` | Die ganze Gestaltung. Farben, Schriften, Abstände stehen oben als Variablen. |
 | `assets/css/covers.css` | Erzeugt. Bildausschnitte der Cover. Nicht von Hand ändern. |
 | `assets/js/nav.js` | Navigation verschwindet beim Herunterscrollen, kommt beim Hochscrollen zurück. |
 | `assets/js/layers.js` | Projektseite: Ebenen schieben sich übereinander. |
+| `assets/js/video.js` | Projektseite: Videos starten erst im Bild, Schleifen lassen sich anhalten. |
 | `assets/js/filter.js` | Index: Tag-Filter, Zustand in der Adresse. |
 | `assets/js/preview.js` | Index: Cover folgt der Maus. |
 | `assets/media/` | Erzeugt. Bilder in Webgröße und `manifest.json` (Maße der Bilder). |
@@ -26,6 +28,8 @@ so ausgeliefert, wie sie hier liegen.
 1. `content/projects/<slug>.json` anlegen (am einfachsten eine vorhandene Datei kopieren).
 2. Bilder holen: `python3 images.py "/Pfad/zum/Vault/00_Allgemein/Attachements"`
    (einmalig vorher: `pip3 install pillow`)
+   Videos holen, falls das Projekt welche hat: `python3 videos.py "/Pfad/zum/Vault/00_Allgemein/Attachements"`
+   (einmalig vorher: `brew install ffmpeg`)
 3. Seiten erzeugen: `python3 build.py`
 4. Ansehen: `python3 -m http.server` und im Browser `http://localhost:8000` öffnen.
 5. Alt-Texte lesen, dann alles committen (Datendatei, Bilder, erzeugte Seiten).
@@ -38,6 +42,9 @@ Texte ändern: nur Schritt 3 bis 5.
 - `tags`: höchstens zwei, mit den `id`s aus `content/site.json`.
 - `cover.focus`: Bildausschnitt als `[x0, y0, x1, y1]` in Pixeln des Originalbildes.
 - `sections`: 2 bis 4 Abschnitte, je `label`, `text` (Liste von Absätzen) und `media` (Bilder mit `alt`).
+  Ein Video ist ein Medium mit `"type": "video"` und `"mode"`: `"loop"` (stumme Schleife, Ton wird entfernt)
+  oder `"controls"` (mit Ton und Bedienelementen, startet nie von selbst).
+- `links`: Liste aus `label` und `url`. Hier stehen auch die Vimeo-Links, solange ein Video nicht als Datei vorliegt.
 - `consent`: Hinweis zum Einverständnis gezeigter Personen. Erscheint nicht auf der Seite.
 
 ## Nicht ins Repository

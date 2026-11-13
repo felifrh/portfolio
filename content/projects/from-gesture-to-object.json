@@ -1,0 +1,92 @@
+{
+  "slug": "from-gesture-to-object",
+  "title": "From Gesture to Object",
+  "year": "since 2025",
+  "sortKey": 2025,
+  "order": 1,
+  "homeOrder": 4,
+  "tags": [
+    "material-making"
+  ],
+  "oneLiner": "A clay 3D printer that is controlled in real time by hand gestures.",
+  "cover": {
+    "file": "Ferch_Felicitas_IMAGE.jpg",
+    "alt": "A person in profile stands at a white plinth and moves a hand above a tablet; next to it a clay 3D printer prints onto a small plate.",
+    "focus": [
+      66,
+      63,
+      3991,
+      2926
+    ]
+  },
+  "facts": {
+    "Year": "since 2025",
+    "Context": "Digital Transformation II, M.A. Design & Future Making, Pforzheim University",
+    "Team": "solo project",
+    "Role": "concept, development, fabrication",
+    "Tools": "Lutum 4.6 clay 3D printer, Google MediaPipe, Python, G-code, TouchDesigner"
+  },
+  "sections": [
+    {
+      "label": "Interface",
+      "text": [
+        "From Gesture to Object is a body-driven interface for digital fabrication. A clay 3D printer is controlled in real time through hand gestures, without CAD software or traditional design tools. Built with Google MediaPipe and Python, the system tracks hand motion and translates it into G-code commands that go directly to the printer. The resulting clay forms are sculptural imprints of human movement, embodied sketches formed by gesture."
+      ],
+      "media": [
+        {
+          "file": "DSCF1823.jpg",
+          "alt": "The clay 3D printer on a white plinth; a visitor points at a screen set into the plinth that shows the tracked hand, next to a small sheet explaining the gestures."
+        }
+      ]
+    },
+    {
+      "label": "Gesture",
+      "text": [
+        "The project starts from a simple question: what if we could interact with machines in a more intuitive way? A camera above the workspace follows the hand. A fist moves the print path 3 mm inwards, a pointing finger keeps it where it is, an open palm moves it 3 mm outwards. The G-code is sent to the printer in small packets, so the form changes while it is being printed."
+      ],
+      "media": [
+        {
+          "file": "IMG_4613.jpg",
+          "alt": "Visitors gather around the plinth in an exhibition space and watch the screen while the printer works in the foreground."
+        },
+        {
+          "file": "IMG_4730.jpg",
+          "alt": "Two people at the installation seen from behind; one of them explains something with both hands raised."
+        }
+      ]
+    },
+    {
+      "label": "Objects",
+      "text": [
+        "Clay is forgiving, and the objects differ from the usual 3D-printing look: they carry tremors, hesitations and flowing movements, a physical archive of gestural communication. The project is also about access, because people without technical training can create printable objects."
+      ],
+      "media": [
+        {
+          "file": "IMG_4408.jpg",
+          "alt": "Four clay cylinders in white, beige and grey; their printed layers shift, bulge and loosen where the hand moved."
+        },
+        {
+          "file": "IMG_5583.jpg",
+          "alt": "Many printed clay cylinders standing close together, seen from above."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Ars Electronica Festival, 2025",
+    "Dutch Design Week, 2025",
+    "A.K.T;, exhibition \"Future Narratives\""
+  ],
+  "links": [
+    {
+      "label": "Ars Electronica",
+      "url": "https://ars.electronica.art/panic/en/view/from-gesture-to-object-bridging-digital-interaction-design-and-physical-making-21138ddb450c815d973ad3cc2dc563c2/"
+    },
+    {
+      "label": "A.K.T; Future Narratives",
+      "url": "https://akate.de/future-narratives/"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

@@ -1,0 +1,90 @@
+{
+  "slug": "symbiotic-machine",
+  "title": "Symbiotic Machine",
+  "year": "2025 – 2026",
+  "sortKey": 2026,
+  "order": 3,
+  "homeOrder": 3,
+  "tags": [
+    "material-making"
+  ],
+  "oneLiner": "An interactive installation that turns the hidden energy use of AI into a relationship you can see and feel.",
+  "cover": {
+    "file": "IMG_7707.jpg",
+    "alt": "Three glass greenhouses with herbs on a long table in front of a white wall; above them the Symbiotic Machine logo.",
+    "focus": [
+      199,
+      1401,
+      4073,
+      5011
+    ]
+  },
+  "facts": {
+    "Year": "2025 – 2026",
+    "Context": "Mirror Machines 3, cooperation of Pforzheim University and Heilbronn University",
+    "Team": "solo project",
+    "Role": "concept, development and design",
+    "Tools": "Raspberry Pi, Python/Flask, OpenAI API, Neopixel LEDs, touch display"
+  },
+  "sections": [
+    {
+      "label": "Question",
+      "text": [
+        "What if computational processes did not only take from the environment, but also gave something back? Symbiotic Machine translates the usually invisible energy consumption of artificial intelligence into an experience. Every prompt sets a process in motion that produces, above all, heat. The installation reads AI not as an immaterial tool but as an energy-dependent system whose activity always has physical consequences."
+      ],
+      "media": [
+        {
+          "file": "SymbioticMachine-Infos.png",
+          "alt": "Poster in dark green: the title Symbiotic Machine in bright green, once upright and once upside down, around a glossy green logo in front of plants."
+        }
+      ]
+    },
+    {
+      "label": "Installation",
+      "text": [
+        "Three glass greenhouses filled with herbs stand on a table. A small touch display offers prompts about AI and the environment. Once a prompt is chosen, the answer flows in piece by piece while an LED strip sends orange impulses from the computer down to the plants. A bar on the display shows the rising temperature. Heat becomes the mediator between digital information and living matter, a by-product that can nourish and endanger at the same time."
+      ],
+      "media": [
+        {
+          "type": "video",
+          "file": "IMG_7836.mov",
+          "mode": "controls",
+          "alt": "A visitor, seen from behind, stands at the table with the greenhouses and uses the touch display; orange light runs through the plants."
+        },
+        {
+          "file": "DSC_4916.jpg",
+          "alt": "Close-up into one greenhouse: a glowing white LED strip runs between rosemary and other herbs."
+        }
+      ]
+    },
+    {
+      "label": "Decision",
+      "text": [
+        "We decided against real heating mats. They would only have imitated the long-term effect, and visitors could not have felt the warmth anyway. Heat is therefore made readable as light, and the temperature runs as a simulation in the interface. The result is a moral feedback loop: your curiosity keeps something alive, but too much of it harms it."
+      ],
+      "media": [
+        {
+          "file": "Symbiotic_Machine_Interface.png",
+          "alt": "The interface on a dark screen: a temperature bar at 31.2 °C at the top, the prompt \"Can a machine and a plant share a life cycle?\" and the answer text below."
+        },
+        {
+          "file": "Symbiotic_Machine_Skizze2.png",
+          "alt": "Hand-drawn sketch of the setup: three glass boxes of 80 cm each on a 200 cm table on trestles, the display in the middle."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Mirror Machines 3 – Relations, Kunstverein Heilbronn in the Kunsthalle Vogelmann, 30 January – 1 February 2026",
+    "Werkschau Pforzheim, February 2026",
+    "\"Relations: Mirror Machines 3\", accompanying exhibition at MADLAB for the A.K.T; exhibition \"In der Heimat zu Gast\", 25 April – 5 July 2026"
+  ],
+  "links": [
+    {
+      "label": "Mirror Machines at Heilbronn University",
+      "url": "https://www.hs-heilbronn.de/de/mirror_machines_0011"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

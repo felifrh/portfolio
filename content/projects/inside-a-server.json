@@ -1,0 +1,62 @@
+{
+  "slug": "inside-a-server",
+  "title": "inside a server",
+  "year": "2020 – 2021",
+  "sortKey": 2021,
+  "order": 2,
+  "homeOrder": 11,
+  "tags": [
+    "interface-realtime"
+  ],
+  "oneLiner": "An AR application that takes you on a journey through the internet, from node to node.",
+  "cover": {
+    "file": "Pasted image 20261101185128.png",
+    "alt": "Shapes glowing in blue and white on a black wall, connected by thin lines; a tablet stands below them.",
+    "focus": [
+      380,
+      0,
+      1232,
+      639
+    ]
+  },
+  "facts": {
+    "Year": "2020 – 2021",
+    "Context": "Interactive Media course, 3rd semester, University of Applied Sciences Würzburg",
+    "Team": "solo project",
+    "Role": "concept, development, physical build",
+    "Tools": "Unity, Vuforia, Processing, Fadecandy, Neopixel LEDs"
+  },
+  "sections": [
+    {
+      "label": "Nodes",
+      "text": [
+        "Inside a Server is an interactive AR application that invites users to dive into the World Wide Web, represented by nodes. These LED-illuminated shapes on a wall contain information about topics that occur on the internet: cookies, the volumes of data generated every day, and the possibility of manipulating elections with these data sets."
+      ],
+      "media": [
+        {
+          "file": "Pasted image 20261101185128.png",
+          "alt": "The LED wall: eight shapes such as a star, a wave and a cloud glow in blue and white on black and are connected by thin lines; a tablet below shows the same network."
+        }
+      ]
+    },
+    {
+      "label": "Journey",
+      "text": [
+        "A shape lights up on the wall. Users capture it with a tablet, and a particle shape appears that stands for the dissolution of the physical LED point. The particles contain information that can be clicked and explored. Once a node is solved, the particle shape dissolves and the next point lights up on the wall, so nobody gets lost inside the server.",
+        "The application conveys complex topics in a simple and exciting way by portioning them into individual dots to discover. It is an interplay between the physical LED wall, driven by Fadecandy and a Processing sketch, and the digital particle application built in Unity."
+      ],
+      "media": []
+    }
+  ],
+  "exhibitions": [
+    "Final presentation, 28 January 2021"
+  ],
+  "links": [
+    {
+      "label": "Video on Vimeo",
+      "url": "https://vimeo.com/507229951"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}

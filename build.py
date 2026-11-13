@@ -4,6 +4,7 @@ build.py: erzeugt alle HTML-Seiten aus den Datendateien.
 
 Aufruf:   python3 build.py
 Eingabe:  content/site.json, content/projects/*.json, assets/media/manifest.json
+          (das Manifest schreiben images.py und videos.py: Maße aller Bilder und Videos)
 Ausgabe:  index.html (Home), index/index.html (Index), work/<slug>/index.html (Projekte),
           assets/css/covers.css (Bildausschnitte der Cover)
 
@@ -44,6 +45,26 @@ def picture(slug, item, sizes, lazy=True):
     loading = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high"'
     return (f'<img src="{base}-{info["widths"][-1]}.webp" srcset="{srcset}" sizes="{sizes}" '
             f'width="{info["w"]}" height="{info["h"]}" alt="{e(item["alt"])}"{loading}>')
+
+
+def video(slug, item):
+    """<video>, das direkt auf der Seite läuft. Im HTML stehen immer die Bedienelemente des Browsers,
+    damit es auch ohne JavaScript bedienbar ist. video.js macht aus "loop" eine stumme Schleife."""
+    info = MEDIA[f"{slug}/{item['file']}"]
+    base = f"{{root}}assets/media/{slug}/{info['name']}"
+    loop = " muted loop" if item["mode"] == "loop" else ""
+    return (f'<video data-mode="{item["mode"]}" controls playsinline preload="none"{loop} '
+            f'poster="{base}-poster.webp" width="{info["w"]}" height="{info["h"]}" '
+            f'aria-label="{e(item["alt"])}"><source src="{base}.mp4" type="video/mp4"></video>')
+
+
+def figure(slug, item):
+    """Ein Bild oder Video eines Abschnitts. Kleine Bilder (unter 1000 px) stehen zu zweit nebeneinander,
+    statt unscharf auf volle Breite gezogen zu werden."""
+    if item.get("type") == "video":
+        return f'<figure>{video(slug, item)}</figure>'
+    small = ' class="small"' if MEDIA[f"{slug}/{item['file']}"]["w"] < 1000 else ""
+    return f'<figure{small}>{picture(slug, item, "(min-width: 900px) 55vw, 100vw")}</figure>'
 
 
 def cover(project, sizes, lazy=True, extra=""):
@@ -112,8 +133,7 @@ def project_page(project, previous, following):
     layers = []
     for number, section in enumerate(project["sections"], start=1):
         text = "\n".join(f"          <p>{e(p)}</p>" for p in section["text"])
-        media = "\n".join(f'          <figure>{picture(slug, m, "(min-width: 900px) 55vw, 100vw")}</figure>'
-                          for m in section.get("media", []))
+        media = "\n".join(f"          {figure(slug, m)}" for m in section.get("media", []))
         layers.append(f"""    <section class="layer" aria-labelledby="s{number}">
       <h2 class="layer__label" id="s{number}">{number:02d} / {e(section["label"])}</h2>
       <div class="layer__grid">
@@ -159,7 +179,7 @@ def project_page(project, previous, following):
     </section>
   </main>"""
     title = f'{project["title"]} – {SITE["name"]}'
-    return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js"])
+    return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"])
 
 
 def project_rows(projects):

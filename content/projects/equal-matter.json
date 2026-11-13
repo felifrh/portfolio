@@ -4,16 +4,21 @@
   "year": "2025 – 2026",
   "sortKey": 2026,
   "order": 2,
-  "homeOrder": 1,
-  "tags": ["installation-exhibition"],
+  "homeOrder": 2,
+  "tags": [
+    "installation-exhibition"
+  ],
   "oneLiner": "An interactive installation in which human, machine and material take part as equals.",
-
   "cover": {
     "file": "ddw26_36_FFerchKWittemannMADFM.jpg",
-    "focus": [418, 1853, 3018, 3807],
+    "focus": [
+      418,
+      1853,
+      3018,
+      3807
+    ],
     "alt": "A hand touches the water in a black bowl; bright ring-shaped light reflections ripple across the dark surface."
   },
-
   "facts": {
     "Year": "2025 – 2026",
     "Context": "Future of Making, M.A. Design & Future Making, Pforzheim University",
@@ -21,7 +26,6 @@
     "Role": "concept, code, setup and physical computing, documentation and paper (50/50)",
     "Tools": "capacitive sensing, Raspberry Pi Pico 2 W, Python, speaker, webcam, 3D printing"
   },
-
   "sections": [
     {
       "label": "Question",
@@ -68,15 +72,12 @@
       ]
     }
   ],
-
   "video": null,
-
   "exhibitions": [
     "Werkschau Pforzheim, February 2026 (A.K.T; exhibition space)",
     "Milan Design Week, April 2026",
     "Dutch Design Week, 17 – 25 October 2026"
   ],
   "links": [],
-
   "consent": "Persons shown may be shown (Feli, 13.11.2026, E12)."
 }

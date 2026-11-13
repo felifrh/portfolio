@@ -1,0 +1,91 @@
+{
+  "slug": "auratic-digitalism",
+  "title": "Auratic Digitalism",
+  "year": "2022 – 2023",
+  "sortKey": 2023,
+  "order": 2,
+  "homeOrder": 8,
+  "tags": [
+    "installation-exhibition"
+  ],
+  "oneLiner": "Four experiments on whether digital applications can create an aura.",
+  "cover": {
+    "file": "auraticdigitalism-25.jpg",
+    "alt": "A glowing sphere in turquoise and orange stands on a dark plinth; a hand hovers above it in the dim light.",
+    "focus": [
+      0,
+      1725,
+      3108,
+      4056
+    ]
+  },
+  "facts": {
+    "Year": "2022 – 2023",
+    "Context": "Semester project, supervised by Prof. Erich Schöls",
+    "Team": "with Juan Cruz Caamaño",
+    "Role": "Elemental (half), Auragram (development), Tactile (mechanics and Arduino); Artive was built by Juan",
+    "Tools": "Unity, TouchDesigner, Leap Motion, Arduino, VR, API"
+  },
+  "sections": [
+    {
+      "label": "Aura",
+      "text": [
+        "What fascinates us about an original painting in a museum? Why do we travel for hours to see a building? Walter Benjamin explains the \"aura\" of such things with their authenticity, uniqueness and distance, and argues that technical reproduction wears it away. Auratic Digitalism asks whether the digital space can nevertheless create an auratic moment, and how."
+      ],
+      "media": [
+        {
+          "file": "auraticdigitalism-ganz.jpg",
+          "alt": "Four black plinths in a white room carry the exhibits: a glowing yellow sphere, a phone, a monitor with a black box, and a VR headset."
+        }
+      ]
+    },
+    {
+      "label": "Four exhibits",
+      "text": [
+        "Four exhibits approach this question from different sides. Elemental is a glass sphere that shows natural disasters of fire, water, earth and air, controlled by hand movements over a Leap Motion. Auragram is a smartphone app that works like social media, but turns a photograph into sound instead of showing it. Tactile lets visitors feel music as vibrations in their fingertips. Artive is a VR space in which a painting assembles itself fragment by fragment while a voice tells its background."
+      ],
+      "media": [
+        {
+          "file": "auraticdigitalism-19.jpg",
+          "alt": "Elemental: a hand reaches over a sphere glowing in bright turquoise; a small motion sensor lies in front of it."
+        },
+        {
+          "file": "auraticdigitalism-10.jpg",
+          "alt": "Auragram: a hand holds a phone whose screen shows a soft yellow-green and violet gradient and the word AURAGRAM."
+        },
+        {
+          "file": "IMG_9434.jpg",
+          "alt": "Tactile: a person reaches with one hand into a black box; a monitor behind it shows pale vertical streaks."
+        },
+        {
+          "file": "auraticdigitalism-14.jpg",
+          "alt": "Artive: a person wearing a VR headset holds two controllers."
+        }
+      ]
+    },
+    {
+      "label": "Proof of concept",
+      "text": [
+        "Together the exhibits became a proof of concept: an auratic feeling can be carried into digital media and made tangible, at the intersection of the analogue and digital realm."
+      ],
+      "media": [
+        {
+          "file": "auraticdigitalism-plakat 1.jpg",
+          "alt": "A person seen from behind reads the black-and-white project poster with the title Auratic Digitalism, hung above a black plinth."
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Final presentation, 26 January 2023",
+    "Werkschau, February 2023"
+  ],
+  "links": [
+    {
+      "label": "Video on Vimeo",
+      "url": "https://vimeo.com/941021172"
+    }
+  ],
+  "video": null,
+  "consent": "Persons shown and named may be shown and named (Feli, 13.11.2026, E12)."
+}
