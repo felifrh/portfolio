@@ -77,10 +77,12 @@ def tag_labels(project):
     return " · ".join(TAGS[t] for t in project["tags"])
 
 
-def page(root, title, description, body, body_class="", scripts=()):
+def page(root, title, description, body, body_class="", scripts=(), early_script=""):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
     script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
                             for s in ("nav.js", *scripts))
+    # Ein "frühes" Skript läuft, bevor die Seite gezeichnet wird (nur enter.js auf den Projektseiten).
+    early = f'  <script src="{root}assets/js/{early_script}"></script>\n' if early_script else ""
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +93,7 @@ def page(root, title, description, body, body_class="", scripts=()):
   <link rel="preload" href="{root}assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{root}assets/css/site.css">
   <link rel="stylesheet" href="{root}assets/css/covers.css">
-{script_tags}
+{early}{script_tags}
 </head>
 <body class="{body_class}">
   <a class="skip" href="#main">Skip to content</a>
@@ -179,7 +181,8 @@ def project_page(project, previous, following):
     </section>
   </main>"""
     title = f'{project["title"]} – {SITE["name"]}'
-    return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"])
+    return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"],
+                early_script="enter.js")
 
 
 def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem"):
@@ -220,14 +223,11 @@ def home_page(projects):
     ordered = sorted(projects, key=lambda p: p.get("homeOrder", 99))
     body = f"""  <main id="main" class="index home">
     <h1 class="visually-hidden">{e(SITE["name"])}</h1>
-    <div class="home__track">
-      <div class="home__stage">
-        <ol class="rows">
-{project_rows(ordered, "(min-width: 900px) 40vw, 80vw")}
-        </ol>
-        <p class="home__label" aria-hidden="true"></p>
-        <p class="counter" aria-hidden="true">01 / {len(ordered):02d}</p>
-      </div>
+    <div class="home__stage">
+      <ol class="rows">
+{project_rows(ordered, "(min-width: 900px) 50vw, 80vw")}
+      </ol>
+      <p class="home__label" aria-hidden="true"></p>
     </div>
     {FOOTER}
   </main>"""

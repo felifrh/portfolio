@@ -16,7 +16,8 @@ so ausgeliefert, wie sie hier liegen.
 | `assets/css/site.css` | Die ganze Gestaltung. Farben, Schriften, Abstände stehen oben als Variablen. |
 | `assets/css/covers.css` | Erzeugt. Bildausschnitte der Cover. Nicht von Hand ändern. |
 | `assets/js/nav.js` | Navigation verschwindet beim Herunterscrollen, kommt beim Hochscrollen zurück. |
-| `assets/js/home.js` | Home: Projekte auf dem Kreisbogen, langsames Treiben. Stellschrauben stehen oben im Skript. |
+| `assets/js/home.js` | Home: Projekte auf dem endlosen Kreisbogen, Treiben, Klick-Übergang. Stellschrauben stehen oben im Skript. |
+| `assets/js/enter.js` | Projektseite: zweiter Teil des Übergangs von Home (Bild gleitet an seinen Platz). |
 | `assets/js/layers.js` | Projektseite: Ebenen schieben sich übereinander. |
 | `assets/js/video.js` | Projektseite: Videos starten erst im Bild, Schleifen lassen sich anhalten. |
 | `assets/js/filter.js` | Index: Tag-Filter, Zustand in der Adresse. |

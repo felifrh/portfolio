@@ -2,35 +2,41 @@
 //
 // Im HTML steht eine ganz normale Liste mit Links. Dieses Skript ordnet dieselben Listenpunkte
 // als Bilder auf einem Kreisbogen an: am Desktop nebeneinander, auf dem Handy untereinander.
-// Gescrollt wird mit dem normalen Scrollen des Browsers (Mausrad, Wischen, Tastatur). Die Seite
-// ist dafür nur höher als das Fenster, die Bühne bleibt stehen, und die Scroll-Position bestimmt,
-// welches Projekt vorn liegt. So bleiben Tastatur, Zoom und Screenreader unberührt.
+// Der Bogen ist endlos: Nach dem letzten Projekt kommt wieder das erste. Er treibt langsam in die
+// Richtung weiter, in die zuletzt gescrollt wurde. Die Seite selbst scrollt dabei nicht; Mausrad,
+// Wischen und Pfeiltasten bewegen nur den Bogen. Die Links bleiben mit der Tab-Taste erreichbar.
 //
 // Bei reduzierter Bewegung tut dieses Skript nichts: Dann bleibt die Startseite die schlichte Liste.
 
 const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const track = document.querySelector(".home__track");
+const stage = document.querySelector(".home__stage");
 
-if (track && !calm) {
-  const tiles = [...track.querySelectorAll(".row")];
-  const counter = track.querySelector(".counter");
-  const label = track.querySelector(".home__label");   // Handy: Titel des vorderen Bildes, bleibt immer sichtbar
+if (stage && !calm) {
+  const tiles = [...stage.querySelectorAll(".row")];
+  const covers = tiles.map((tile) => tile.querySelector(".cover"));
+  const links = tiles.map((tile) => tile.querySelector("a"));
+  const label = stage.querySelector(".home__label");   // Handy: Titel des vorderen Bildes, bleibt immer sichtbar
   const count = tiles.length;
-  const two = (n) => String(n).padStart(2, "0");
 
   // ---------- Stellschrauben ----------
-  const SPACING = 0.7;     // Abstand zweier Bilder auf dem Bogen, als Anteil der Bildgröße (unter 1 = überlappt)
+  const SPACING = 0.78;    // Abstand zweier Bilder auf dem Bogen, als Anteil der Bildgröße
   const RADIUS = 1.6;      // Kreisradius, als Vielfaches der Fensterbreite (Handy: Fensterhöhe mal 0.9)
   const TURN = 0.5;        // wie stark sich die Bilder mit dem Kreis mitdrehen (0 = gar nicht, 1 = ganz)
-  const SHRINK = 0.1;      // um wie viel jedes Bild pro Platz Abstand kleiner wird
-  const SOFTNESS = 0.07;   // Weichheit des Scrollens: kleiner = weicher und träger
-  const SWAY = 0.045;      // Stärke des langsamen Treibens (in Plätzen)
+  const SMALL = 0.7;       // Größe der Bilder, die nicht vorn sind (Desktop)
+  const BLUR = 3;          // Unschärfe der Bilder, die nicht vorn sind, in Pixeln
+  const SOFTNESS = 0.11;   // Weichheit des Scrollens: kleiner = weicher und träger
+  const DRIFT = 0.045;     // Tempo des Treibens, in Projekten pro Sekunde
+  const WHEEL = 1 / 450;   // Mausrad: Projekte pro Pixel Scrollweg
 
-  let vertical, step, radius, tileSize;
-  let position = 0;        // aktuell gezeigte Stelle (0 = erstes Projekt vorn), läuft weich hinterher
-  let time = 0;            // Uhr für das Treiben; steht still, solange die Maus oder ein Finger auf der Bühne ist
-  let paused = false;
+  let vertical, radius, tileSize;
+  let target = 0;          // wohin der Bogen will (wächst endlos, 3.0 = viertes Projekt vorn)
+  let position = 0;        // wo er gerade ist, läuft weich hinterher
+  let direction = 1;       // letzte Scrollrichtung, in die das Treiben weiterläuft
+  let speed = 0;           // Schwung nach dem Wischen, klingt zum Treiben hin ab
+  let paused = false;      // Maus auf einem Bild oder Finger auf der Bühne
+  let leaving = false;     // ein Projekt wurde angeklickt
   let last = performance.now();
+  const blurNow = new Array(count).fill(-1);
 
   document.documentElement.classList.add("js-home");
 
@@ -38,42 +44,53 @@ if (track && !calm) {
     vertical = window.innerWidth < 900;
     tileSize = vertical ? tiles[0].offsetHeight : tiles[0].offsetWidth;   // Größe kommt aus dem CSS (--tile)
     radius = vertical ? window.innerHeight * 0.9 : window.innerWidth * RADIUS;
-    step = window.innerHeight * 0.6;                          // Scrollweg von einem Projekt zum nächsten
-    track.style.height = `${window.innerHeight + (count - 1) * step}px`;
   }
 
-  // Wo in der Liste stehen wir laut Scroll-Position?
-  const target = () => Math.min(count - 1, Math.max(0, (window.scrollY - track.offsetTop) / step));
+  // Abstand eines Bildes zum vorderen Platz, über das Ende der Liste hinweg gerechnet (endlos)
+  const distanceOf = (i, at) => ((((i - at) % count) + count * 1.5) % count) - count / 2;
 
   function frame(now) {
-    if (!paused) time += (now - last) / 1000;
+    const seconds = Math.min(0.05, (now - last) / 1000);
     last = now;
-    position += (target() - position) * SOFTNESS;
+    if (!paused && !leaving) {
+      speed += (direction * DRIFT - speed) * 0.04;          // Schwung klingt ab, das Treiben bleibt
+      target += speed * seconds;
+    }
+    position += (target - position) * SOFTNESS;
 
-    const angleStep = (tileSize * SPACING) / radius;          // Winkel zwischen zwei Bildern
-    const front = Math.round(position);
+    const angleStep = (tileSize * SPACING) / radius;        // Winkel zwischen zwei Bildern
+    let front = 0, nearest = Infinity;
 
     tiles.forEach((tile, i) => {
-      // Abstand zum vorderen Platz, plus ein kleines, für jedes Bild anderes Treiben
-      const distance = i - position + Math.sin(time * 0.35 + i * 1.7) * SWAY;
-      const angle = distance * angleStep;
-      const along = Math.sin(angle) * radius;                 // Weg entlang des Bogens
-      const away = (1 - Math.cos(angle)) * radius;            // Weg vom Scheitel des Kreises weg
-      const bob = Math.sin(time * 0.5 + i) * 5;               // leichtes Auf und Ab
-      const x = vertical ? -away : along;
-      const y = vertical ? along + bob : away + bob;
+      const distance = distanceOf(i, position);
       const far = Math.abs(distance);
-      const scale = Math.max(0.5, 1 - far * SHRINK);
+      if (far < nearest) { nearest = far; front = i; }
+
+      // "focus": 1 = ganz vorn, 0 = ein Platz oder weiter weg. Die Kurve ist am Rand flach, deshalb
+      // sind zwei Bilder im Moment des Wechsels gleich klein und berühren sich nicht: Keines springt
+      // vor das andere, das neue wächst nach vorn.
+      const focus = Math.max(0, 1 - far) ** 2;
+      const angle = distance * angleStep;
+      const along = Math.sin(angle) * radius;               // Weg entlang des Bogens
+      const away = (1 - Math.cos(angle)) * radius;          // Weg vom Scheitel des Kreises weg
+      const x = vertical ? -away : along;
+      const y = vertical ? along : away;
+      const scale = vertical
+        ? Math.max(0.5, 1 - far * 0.1)
+        : SMALL + (1 - SMALL) * focus - Math.max(0, far - 1) * 0.04;
       const turn = (vertical ? -angle : angle) * TURN;
 
       tile.style.transform = `translate(${x}px, ${y}px) rotate(${turn}rad) scale(${scale})`;
-      tile.style.opacity = Math.min(1, Math.max(0, 2.3 - far * 0.8));   // blendet zum Rand hin aus
-      tile.style.zIndex = 100 - Math.round(far * 10);                   // das mittlere liegt vorn
-      tile.style.visibility = far > 3 ? "hidden" : "visible";
-      tile.classList.toggle("is-front", i === front);
+      tile.style.opacity = Math.min(1, Math.max(0, 2.6 - far));     // blendet zum Rand hin aus
+      tile.style.zIndex = 100 - Math.round(far * 20);                // das mittlere liegt vorn
+      tile.style.pointerEvents = far < 3 ? "" : "none";
+
+      // Unschärfe nur neu setzen, wenn sie sich merklich ändert (spart Rechenarbeit)
+      const blur = Math.round(Math.min(1, far) * BLUR * 2) / 2;
+      if (blur !== blurNow[i]) { blurNow[i] = blur; covers[i].style.filter = blur ? `blur(${blur}px)` : ""; }
     });
 
-    counter.textContent = `${two(front + 1)} / ${two(count)}`;
+    tiles.forEach((tile, i) => tile.classList.toggle("is-front", i === front));
     if (label.dataset.shown !== String(front)) {
       label.dataset.shown = front;
       label.textContent = tiles[front].querySelector(".row__title").textContent;
@@ -81,36 +98,84 @@ if (track && !calm) {
     requestAnimationFrame(frame);
   }
 
-  const goTo = (i) => window.scrollTo({ top: track.offsetTop + Math.min(count - 1, Math.max(0, i)) * step });
+  function nudge(amount) {             // den Bogen um 'amount' Projekte bewegen
+    target += amount;
+    if (amount) direction = Math.sign(amount);
+  }
 
-  // Treiben pausiert, solange die Maus über einem Bild oder ein Finger auf der Bühne ist
-  for (const tile of tiles) {
+  // ---------- Eingaben ----------
+  window.addEventListener("wheel", (event) => nudge((event.deltaY + event.deltaX) * WHEEL), { passive: true });
+
+  window.addEventListener("keydown", (event) => {
+    const steps = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+    if (steps) { target = Math.round(target); nudge(steps); speed = 0; }
+  });
+
+  let touch = null;
+  stage.addEventListener("touchstart", (event) => {
+    paused = true; speed = 0;
+    touch = { at: vertical ? event.touches[0].clientY : event.touches[0].clientX, time: event.timeStamp };
+  }, { passive: true });
+  stage.addEventListener("touchmove", (event) => {
+    const at = vertical ? event.touches[0].clientY : event.touches[0].clientX;
+    const moved = (touch.at - at) / (tileSize * SPACING);
+    const seconds = Math.max(0.001, (event.timeStamp - touch.time) / 1000);
+    nudge(moved);
+    speed = moved / seconds;                                 // Schwung für das Loslassen
+    touch = { at, time: event.timeStamp };
+  }, { passive: true });
+  stage.addEventListener("touchend", () => { paused = false; speed = Math.max(-4, Math.min(4, speed)); });
+
+  tiles.forEach((tile, i) => {
+    // Treiben pausiert, solange die Maus über einem Bild ist
     tile.addEventListener("mouseenter", () => (paused = true));
     tile.addEventListener("mouseleave", () => (paused = false));
     // Tastatur: Wer mit Tab zu einem Projekt springt, bekommt es nach vorn geholt
-    tile.querySelector("a").addEventListener("focus", () => goTo(tiles.indexOf(tile)));
-    // Klick: Dieses Bild wächst zur Projektseite (CSS: view-transition-name, siehe site.css)
-    // Der Name darf nur einmal auf der Seite vorkommen, deshalb erst bei allen anderen entfernen.
-    tile.querySelector("a").addEventListener("click", () => {
-      tiles.forEach((other) => (other.querySelector(".cover").style.viewTransitionName = ""));
-      tile.querySelector(".cover").style.viewTransitionName = "hero";
+    links[i].addEventListener("focus", () => { target += distanceOf(i, target); speed = 0; });
+    // Klick: Das Bild wächst zur Projektseite
+    links[i].addEventListener("click", (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;   // neuer Tab usw.
+      event.preventDefault();
+      if (!leaving) open(i);
     });
-  }
-  track.addEventListener("touchstart", () => (paused = true), { passive: true });
-  track.addEventListener("touchend", () => (paused = false));
-
-  // Pfeiltasten links und rechts blättern um ein Projekt
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") goTo(Math.round(target()) + 1);
-    if (event.key === "ArrowLeft") goTo(Math.round(target()) - 1);
   });
+
+  // ---------- Übergang zur Projektseite ----------
+  // Das angeklickte Bild wächst an den Platz, an dem die Projektseite beginnt: oben, volle Breite.
+  // Erst danach wird die Seite gewechselt. Dort steht dasselbe Bild an derselben Stelle und gleitet
+  // dann an seinen Platz unter dem Titel (assets/js/enter.js).
+  function open(i) {
+    leaving = true;
+    const box = covers[i].getBoundingClientRect();
+    const big = covers[i].cloneNode(true);
+    big.className = `${covers[i].className} home__grow`;
+    big.style.filter = "";
+    Object.assign(big.style, { left: `${box.left}px`, top: `${box.top}px`, width: `${box.width}px`, height: `${box.height}px` });
+    big.querySelector("img").sizes = "150vw";                // jetzt schon das große Bild laden
+    document.body.append(big);
+    stage.classList.add("is-leaving");
+    big.getBoundingClientRect();                             // Startzustand festhalten, dann wachsen
+    Object.assign(big.style, { left: "0px", top: "0px", width: "100vw", height: "92svh" });
+
+    try {
+      sessionStorage.setItem("enter", links[i].href);        // sagt der Projektseite: mit Übergang beginnen
+      sessionStorage.setItem("home-front", i);               // merkt sich, wo wir waren (für "zurück")
+    } catch (error) { /* ohne Speicher gibt es nur den ersten Teil des Übergangs */ }
+    setTimeout(() => (location.href = links[i].href), 950);
+  }
+
+  // "Zurück" im Browser: Startseite wieder in den Ausgangszustand bringen
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    document.querySelector(".home__grow")?.remove();
+    stage.classList.remove("is-leaving");
+    leaving = false;
+  });
+  let remembered = 0;
+  try { remembered = Number(sessionStorage.getItem("home-front")) || 0; } catch (error) { /* egal */ }
+  target = position = remembered;
 
   window.addEventListener("resize", measure);
   measure();
-
-  // Wer von einer Projektseite zurückkommt, landet wieder bei diesem Projekt.
-  const from = tiles.findIndex((tile) => document.referrer.endsWith(tile.querySelector("a").getAttribute("href").replace(/^\.\//, "")));
-  if (from > 0 && window.scrollY === 0) { goTo(from); position = from; }
-
   requestAnimationFrame(frame);
 }

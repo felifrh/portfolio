@@ -257,14 +257,22 @@ ul, ol { list-style: none; }
 
 /* ---------- Home ---------- */
 /* Ohne JavaScript und bei reduzierter Bewegung ist Home die Liste von oben.
-   Mit home.js (Klasse js-home) werden dieselben Listenpunkte zu Bildern auf einem Kreisbogen. */
+   Mit home.js (Klasse js-home) werden dieselben Listenpunkte zu Bildern auf einem Kreisbogen.
+   Die Seite scrollt dann nicht: Die Bühne füllt das Fenster, die Navigation bleibt stehen. */
+.home__label { display: none; }
 .js-home {
   --tile: 78vw;                                   /* Bildbreite auf dem Handy */
+  overflow: hidden; overscroll-behavior: none;    /* kein Seiten-Scrollen, kein "Zurück"-Wischen */
 }
-@media (min-width: 900px) { .js-home { --tile: clamp(18rem, 36vw, 36rem); } }
+@media (min-width: 900px) { .js-home { --tile: min(48vw, 92svh); } }
 
 .js-home .home { padding: 0; }
-.js-home .home__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.js-home .home__stage {
+  position: relative; height: 100svh; overflow: hidden;
+  touch-action: pinch-zoom;                       /* Wischen bewegt den Bogen, Zoomen bleibt möglich */
+  transition: opacity 0.6s ease;
+}
+.js-home .home__stage.is-leaving { opacity: 0; }  /* ein Projekt wurde angeklickt: der Rest blendet aus */
 .js-home .rows { position: absolute; inset: 0; border: 0; }
 .js-home .row {
   position: absolute; left: 50%; top: 50%; width: var(--tile);
@@ -276,39 +284,43 @@ ul, ol { list-style: none; }
 .js-home .row__num { display: none; }
 /* Titel und Jahr: beim vorderen Bild immer, bei den anderen bei Hover und Tastaturfokus */
 .js-home .row__title, .js-home .row__meta {
-  position: absolute; left: 0; opacity: 0; transition: opacity 0.4s ease; white-space: nowrap;
+  position: absolute; left: 0; opacity: 0; transition: opacity 0.5s ease; white-space: nowrap;
 }
 .js-home .row__title { top: calc(100% + 0.9rem); font-size: clamp(1.25rem, 2vw, 1.75rem); letter-spacing: -0.01em; }
 .js-home .row__meta { top: calc(100% + 0.9rem + 2.4rem); text-align: left; }
 .js-home .row.is-front .row__title, .js-home .row.is-front .row__meta,
 .js-home .row:hover .row__title, .js-home .row:hover .row__meta,
 .js-home .row:focus-within .row__title, .js-home .row:focus-within .row__meta { opacity: 1; }
-/* Zähler und (auf dem Handy) Titel liegen über den Bildern, auf weißem Grund, damit sie lesbar bleiben. */
-.counter, .home__label { display: none; }
-.js-home .counter, .js-home .home__label {
-  display: block; position: absolute; z-index: 200; bottom: var(--pad);
+
+/* Handy: Titel des vorderen Bildes unten links, auf weißem Grund, damit er lesbar bleibt */
+.js-home .home__label {
+  display: block; position: absolute; z-index: 200; left: var(--pad); bottom: calc(var(--pad) + 2.5rem);
   background: var(--white); padding: 0.4rem 0.6rem; pointer-events: none;
+  font-size: 1.25rem; letter-spacing: -0.01em; line-height: 1.2; max-width: 80vw;
 }
-.js-home .counter { right: var(--pad); font-family: var(--font-mono); font-size: var(--mono); }
-.js-home .home__label { left: var(--pad); font-size: 1.25rem; letter-spacing: -0.01em; line-height: 1.2; max-width: 65vw; }
-@media (min-width: 900px) {
-  .js-home .counter { right: auto; left: var(--pad); padding-inline: 0; }
-  .js-home .home__label { display: none; }            /* am Desktop steht der Titel unter dem Bild */
-}
+@media (min-width: 900px) { .js-home .home__label { display: none; } }   /* Desktop: Titel unter dem Bild */
 @media (max-width: 899px) {
-  .js-home .row__title, .js-home .row__meta { display: none; }   /* würden vom nächsten Bild verdeckt */
+  .js-home .row__title, .js-home .row__meta { display: none; }           /* würden vom nächsten Bild verdeckt */
 }
-.js-home .home .footer { padding-inline: var(--pad); }
+/* Fußzeile liegt unten in der Bühne, weil die Seite nicht scrollt */
+.js-home .home .footer {
+  position: absolute; z-index: 200; left: 0; right: 0; bottom: 0; padding: 0.6rem var(--pad);
+  background: var(--white);
+}
 
 /* ---------- Übergang von Home zur Projektseite ---------- */
-/* Das angeklickte Cover wächst zum großen Bild der Projektseite. Browser, die das nicht können,
-   wechseln einfach die Seite. Bei reduzierter Bewegung gibt es keinen Übergang. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-  .page-project .hero { view-transition-name: hero; }
-  ::view-transition-group(hero) { animation-duration: 0.65s; animation-timing-function: cubic-bezier(0.2, 0.7, 0.1, 1); }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+/* Teil 1 (home.js): Eine Kopie des angeklickten Covers wächst an den oberen Rand, volle Breite.
+   Der Bildausschnitt rechnet sich dabei laufend neu (covers.css), deshalb passt er am Ende genau. */
+.home__grow {
+  position: fixed; z-index: 15; aspect-ratio: auto;
+  transition: left 0.9s, top 0.9s, width 0.9s, height 0.9s;
+  transition-timing-function: cubic-bezier(0.65, 0, 0.2, 1);
 }
+/* Teil 2 (enter.js): Die Projektseite beginnt mit dem Bild an derselben Stelle, die Einleitung ist
+   noch unsichtbar. Dann gleitet das Bild an seinen Platz. */
+.enter .page-project .hero { position: fixed; inset: 0 0 auto 0; z-index: 15; }
+.enter .intro { opacity: 0; }
+.page-project .hero { z-index: 1; }   /* liegt beim Hineingleiten über der Einleitung */
 
 /* ---------- Platzhalterseiten ---------- */
 .stub { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; min-height: 100svh; display: grid; gap: 1rem; align-content: start; }
