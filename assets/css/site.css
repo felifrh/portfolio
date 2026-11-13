@@ -255,6 +255,61 @@ ul, ol { list-style: none; }
 }
 .preview.is-visible { opacity: 1; }
 
+/* ---------- Home ---------- */
+/* Ohne JavaScript und bei reduzierter Bewegung ist Home die Liste von oben.
+   Mit home.js (Klasse js-home) werden dieselben Listenpunkte zu Bildern auf einem Kreisbogen. */
+.js-home {
+  --tile: 78vw;                                   /* Bildbreite auf dem Handy */
+}
+@media (min-width: 900px) { .js-home { --tile: clamp(18rem, 36vw, 36rem); } }
+
+.js-home .home { padding: 0; }
+.js-home .home__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.js-home .rows { position: absolute; inset: 0; border: 0; }
+.js-home .row {
+  position: absolute; left: 50%; top: 50%; width: var(--tile);
+  margin: calc(var(--tile) * -0.375) 0 0 calc(var(--tile) * -0.5);   /* Bildmitte auf die Bühnenmitte */
+  border: 0; transition: none; will-change: transform, opacity;
+}
+.js-home .row a { display: block; padding: 0; }
+.js-home .row .cover { display: block; width: 100%; aspect-ratio: 4 / 3; }
+.js-home .row__num { display: none; }
+/* Titel und Jahr: beim vorderen Bild immer, bei den anderen bei Hover und Tastaturfokus */
+.js-home .row__title, .js-home .row__meta {
+  position: absolute; left: 0; opacity: 0; transition: opacity 0.4s ease; white-space: nowrap;
+}
+.js-home .row__title { top: calc(100% + 0.9rem); font-size: clamp(1.25rem, 2vw, 1.75rem); letter-spacing: -0.01em; }
+.js-home .row__meta { top: calc(100% + 0.9rem + 2.4rem); text-align: left; }
+.js-home .row.is-front .row__title, .js-home .row.is-front .row__meta,
+.js-home .row:hover .row__title, .js-home .row:hover .row__meta,
+.js-home .row:focus-within .row__title, .js-home .row:focus-within .row__meta { opacity: 1; }
+/* Zähler und (auf dem Handy) Titel liegen über den Bildern, auf weißem Grund, damit sie lesbar bleiben. */
+.counter, .home__label { display: none; }
+.js-home .counter, .js-home .home__label {
+  display: block; position: absolute; z-index: 200; bottom: var(--pad);
+  background: var(--white); padding: 0.4rem 0.6rem; pointer-events: none;
+}
+.js-home .counter { right: var(--pad); font-family: var(--font-mono); font-size: var(--mono); }
+.js-home .home__label { left: var(--pad); font-size: 1.25rem; letter-spacing: -0.01em; line-height: 1.2; max-width: 65vw; }
+@media (min-width: 900px) {
+  .js-home .counter { right: auto; left: var(--pad); padding-inline: 0; }
+  .js-home .home__label { display: none; }            /* am Desktop steht der Titel unter dem Bild */
+}
+@media (max-width: 899px) {
+  .js-home .row__title, .js-home .row__meta { display: none; }   /* würden vom nächsten Bild verdeckt */
+}
+.js-home .home .footer { padding-inline: var(--pad); }
+
+/* ---------- Übergang von Home zur Projektseite ---------- */
+/* Das angeklickte Cover wächst zum großen Bild der Projektseite. Browser, die das nicht können,
+   wechseln einfach die Seite. Bei reduzierter Bewegung gibt es keinen Übergang. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .page-project .hero { view-transition-name: hero; }
+  ::view-transition-group(hero) { animation-duration: 0.65s; animation-timing-function: cubic-bezier(0.2, 0.7, 0.1, 1); }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+}
+
 /* ---------- Platzhalterseiten ---------- */
 .stub { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; min-height: 100svh; display: grid; gap: 1rem; align-content: start; }
 .stub h1 { font-size: clamp(3rem, 11vw, 10rem); line-height: 0.95; letter-spacing: -0.035em; }

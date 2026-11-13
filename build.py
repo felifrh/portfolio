@@ -182,14 +182,15 @@ def project_page(project, previous, following):
     return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"])
 
 
-def project_rows(projects):
-    """Die Projektliste. Sie steht als normale Liste im HTML und ist ohne JavaScript benutzbar."""
+def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem"):
+    """Die Projektliste. Sie steht als normale Liste im HTML und ist ohne JavaScript benutzbar.
+    'sizes' sagt dem Browser, wie breit das Cover gezeigt wird (Index klein, Home groß)."""
     rows = []
     for number, p in enumerate(projects, start=1):
         rows.append(f"""      <li class="row" data-tags="{' '.join(p['tags'])}">
         <a href="{{root}}work/{p['slug']}/">
           <span class="row__num">{number:02d}</span>
-          {cover(p, "(min-width: 900px) 22rem, 5rem")}
+          {cover(p, sizes)}
           <span class="row__title">{e(p['title'])}</span>
           <span class="row__meta">{e(p['year'])}<br>{e(tag_labels(p))}</span>
         </a>
@@ -214,15 +215,23 @@ def index_page(projects):
 
 
 def home_page(projects):
-    """Vorläufig: nur die Liste. Die radiale Anordnung (Phase 3) setzt später auf dieser Liste auf."""
-    body = f"""  <main id="main" class="index">
+    """Home ist dieselbe Liste wie der Index, sortiert nach 'homeOrder'. home.js legt die Listenpunkte
+    auf einen Kreisbogen; ohne JavaScript und bei reduzierter Bewegung bleibt es die Liste."""
+    ordered = sorted(projects, key=lambda p: p.get("homeOrder", 99))
+    body = f"""  <main id="main" class="index home">
     <h1 class="visually-hidden">{e(SITE["name"])}</h1>
-    <ol class="rows">
-{project_rows(sorted(projects, key=lambda p: p.get("homeOrder", 99)))}
-    </ol>
+    <div class="home__track">
+      <div class="home__stage">
+        <ol class="rows">
+{project_rows(ordered, "(min-width: 900px) 40vw, 80vw")}
+        </ol>
+        <p class="home__label" aria-hidden="true"></p>
+        <p class="counter" aria-hidden="true">01 / {len(ordered):02d}</p>
+      </div>
+    </div>
     {FOOTER}
   </main>"""
-    return page("./", SITE["name"], SITE["description"], body, "page-home")
+    return page("./", SITE["name"], SITE["description"], body, "page-home", scripts=["home.js"])
 
 
 def stub_page(folder, title):
