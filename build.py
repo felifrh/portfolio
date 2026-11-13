@@ -58,7 +58,8 @@ def tag_labels(project):
 
 def page(root, title, description, body, body_class="", scripts=()):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
-    script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>' for s in scripts)
+    script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
+                            for s in ("nav.js", *scripts))
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>

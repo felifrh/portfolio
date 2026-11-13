@@ -14,6 +14,7 @@ so ausgeliefert, wie sie hier liegen.
 | `images.py` | Holt die genannten Bilder aus dem Vault, verkleinert sie, entfernt Metadaten. |
 | `assets/css/site.css` | Die ganze Gestaltung. Farben, Schriften, Abstände stehen oben als Variablen. |
 | `assets/css/covers.css` | Erzeugt. Bildausschnitte der Cover. Nicht von Hand ändern. |
+| `assets/js/nav.js` | Navigation verschwindet beim Herunterscrollen, kommt beim Hochscrollen zurück. |
 | `assets/js/layers.js` | Projektseite: Ebenen schieben sich übereinander. |
 | `assets/js/filter.js` | Index: Tag-Filter, Zustand in der Adresse. |
 | `assets/js/preview.js` | Index: Cover folgt der Maus. |

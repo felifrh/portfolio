@@ -30,7 +30,7 @@
   --mono: 0.8125rem;       /* Mono-Labels 13 px, nie unter 12 px */
   --pad: clamp(1rem, 2.5vw, 2rem);
   --nav-height: 3.5rem;
-  --edge: 130px;           /* Höhe des Glasübergangs an der Oberkante jeder Ebene */
+  --edge: 160px;           /* Höhe des Glasübergangs an der Oberkante jeder Ebene */
 }
 
 /* ---------- Grundlage ---------- */
@@ -67,6 +67,9 @@ ul, ol { list-style: none; }
   height: var(--nav-height); padding: 0 var(--pad);
   color: #fff; mix-blend-mode: difference;
 }
+/* nav.js blendet sie beim Herunterscrollen aus. Mit Tastaturfokus bleibt sie sichtbar. */
+.nav { transition: transform 0.35s ease; }
+.nav--hidden:not(:focus-within) { transform: translateY(-100%); }
 .nav a { text-decoration: none; padding: 0.75rem 0; }
 .nav a:hover { text-decoration: underline; }
 .nav nav { display: flex; gap: clamp(1rem, 3vw, 2.5rem); }
@@ -116,11 +119,19 @@ ul, ol { list-style: none; }
   min-height: calc(100svh + var(--edge));   /* steht die Ebene, liegt ihr Übergang oberhalb des Fensters */
   margin-top: calc(-1 * var(--edge));
   padding: var(--edge) var(--pad) calc(var(--edge) + 4rem);
+  /* Viele Stufen einer weichen Kurve: Der Verlauf beginnt und endet flach, so entsteht keine Kante. */
   background: linear-gradient(to bottom,
-    color-mix(in srgb, var(--bg) 0%, transparent) 0,
-    color-mix(in srgb, var(--bg) 45%, transparent) calc(var(--edge) * 0.45),
-    color-mix(in srgb, var(--bg) 88%, transparent) calc(var(--edge) * 0.8),
-    var(--bg) var(--edge));
+    color-mix(in srgb, var(--bg) 0%, transparent) calc(var(--edge) * 0.000),
+    color-mix(in srgb, var(--bg) 2.8%, transparent) calc(var(--edge) * 0.085),
+    color-mix(in srgb, var(--bg) 10.4%, transparent) calc(var(--edge) * 0.170),
+    color-mix(in srgb, var(--bg) 21.6%, transparent) calc(var(--edge) * 0.255),
+    color-mix(in srgb, var(--bg) 35.2%, transparent) calc(var(--edge) * 0.340),
+    color-mix(in srgb, var(--bg) 50%, transparent) calc(var(--edge) * 0.425),
+    color-mix(in srgb, var(--bg) 64.8%, transparent) calc(var(--edge) * 0.510),
+    color-mix(in srgb, var(--bg) 78.4%, transparent) calc(var(--edge) * 0.595),
+    color-mix(in srgb, var(--bg) 89.6%, transparent) calc(var(--edge) * 0.680),
+    color-mix(in srgb, var(--bg) 97.2%, transparent) calc(var(--edge) * 0.765),
+    var(--bg) calc(var(--edge) * 0.85));   /* deckend, bevor der Weichzeichner endet */
 }
 .layer--intro { margin-top: 0; padding: 0; min-height: 0; background: var(--white); }
 .layer:nth-of-type(3n + 2) { --bg: var(--warm-grey); }
@@ -133,14 +144,14 @@ ul, ol { list-style: none; }
   content: ""; position: absolute; inset: 0 0 auto 0; height: var(--edge); pointer-events: none;
 }
 .layer:not(.layer--intro)::before {
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 50%);
-  mask-image: linear-gradient(to bottom, transparent, #000 50%);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 45%, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000 45%, #000);
 }
 .layer:not(.layer--intro)::after {
-  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 35%, #000);
-  mask-image: linear-gradient(to bottom, transparent 35%, #000);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 25%, #000 75%);
+  mask-image: linear-gradient(to bottom, transparent 25%, #000 75%);
 }
 /* Reduzierte Transparenz: kein Weichzeichner, nur der Farbverlauf. */
 @media (prefers-reduced-transparency: reduce) {
