@@ -42,7 +42,7 @@ def picture(slug, item, sizes, lazy=True):
     info = MEDIA[f"{slug}/{item['file']}"]
     base = f"{{root}}assets/media/{slug}/{info['name']}"
     srcset = ", ".join(f"{base}-{w}.webp {w}w" for w in info["widths"])
-    loading = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high"'
+    loading = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high" decoding="sync"'
     return (f'<img src="{base}-{info["widths"][-1]}.webp" srcset="{srcset}" sizes="{sizes}" '
             f'width="{info["w"]}" height="{info["h"]}" alt="{e(item["alt"])}"{loading}>')
 
@@ -68,8 +68,10 @@ def figure(slug, item):
 
 
 def cover(project, sizes, lazy=True, extra=""):
-    """Cover als Ausschnitt: das volle Bild liegt in einem Rahmen, covers.css schiebt es zurecht."""
-    return (f'<span class="cover cover--{project["slug"]} {extra}">'
+    """Cover als Ausschnitt: das volle Bild liegt in einem Rahmen, covers.css schiebt es zurecht.
+    'data-ratio' ist das Seitenverhältnis des Fokusbereichs (home.js braucht es für den Klick-Übergang)."""
+    x0, y0, x1, y1 = project["cover"]["focus"]
+    return (f'<span class="cover cover--{project["slug"]} {extra}" data-ratio="{(x1 - x0) / (y1 - y0):.4f}">'
             f'{picture(project["slug"], project["cover"], sizes, lazy)}</span>')
 
 

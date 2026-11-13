@@ -269,6 +269,7 @@ ul, ol { list-style: none; }
 .js-home .home { padding: 0; }
 .js-home .home__stage {
   position: relative; height: 100svh; overflow: hidden;
+  isolation: isolate;                             /* die Ebenen der Bilder bleiben unter der Navigation */
   touch-action: pinch-zoom;                       /* Wischen bewegt den Bogen, Zoomen bleibt möglich */
   transition: opacity 0.6s ease;
 }
@@ -282,19 +283,26 @@ ul, ol { list-style: none; }
 .js-home .row a { display: block; padding: 0; }
 .js-home .row .cover { display: block; width: 100%; aspect-ratio: 4 / 3; }
 .js-home .row__num { display: none; }
-/* Titel und Jahr: beim vorderen Bild immer, bei den anderen bei Hover und Tastaturfokus */
+/* Glasschicht über allen Bildern, die nicht vorn sind: milchig, leicht fliederfarben, heller Rand.
+   home.js blendet sie über --glass aus, je näher ein Bild der Mitte kommt. Das Bild selbst bleibt scharf. */
+.js-home .row .cover::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(140deg, rgb(255 255 255 / 0.66), rgb(169 178 255 / 0.34) 55%, rgb(255 255 255 / 0.52));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.8);
+  opacity: var(--glass, 1);
+}
+/* Titel und Jahr: vorn schwarz, bei den Nachbarn ausgegraut (--label), bei Hover und Tastaturfokus voll */
 .js-home .row__title, .js-home .row__meta {
-  position: absolute; left: 0; opacity: 0; transition: opacity 0.5s ease; white-space: nowrap;
+  position: absolute; left: 0; opacity: var(--label, 0); white-space: nowrap;
 }
 .js-home .row__title { top: calc(100% + 0.9rem); font-size: clamp(1.25rem, 2vw, 1.75rem); letter-spacing: -0.01em; }
 .js-home .row__meta { top: calc(100% + 0.9rem + 2.4rem); text-align: left; }
-.js-home .row.is-front .row__title, .js-home .row.is-front .row__meta,
 .js-home .row:hover .row__title, .js-home .row:hover .row__meta,
 .js-home .row:focus-within .row__title, .js-home .row:focus-within .row__meta { opacity: 1; }
 
 /* Handy: Titel des vorderen Bildes unten links, auf weißem Grund, damit er lesbar bleibt */
 .js-home .home__label {
-  display: block; position: absolute; z-index: 200; left: var(--pad); bottom: calc(var(--pad) + 2.5rem);
+  display: block; position: absolute; z-index: 2000; left: var(--pad); bottom: calc(var(--pad) + 2.5rem);
   background: var(--white); padding: 0.4rem 0.6rem; pointer-events: none;
   font-size: 1.25rem; letter-spacing: -0.01em; line-height: 1.2; max-width: 80vw;
 }
@@ -304,18 +312,14 @@ ul, ol { list-style: none; }
 }
 /* Fußzeile liegt unten in der Bühne, weil die Seite nicht scrollt */
 .js-home .home .footer {
-  position: absolute; z-index: 200; left: 0; right: 0; bottom: 0; padding: 0.6rem var(--pad);
+  position: absolute; z-index: 2000; left: 0; right: 0; bottom: 0; padding: 0.6rem var(--pad);
   background: var(--white);
 }
 
 /* ---------- Übergang von Home zur Projektseite ---------- */
 /* Teil 1 (home.js): Eine Kopie des angeklickten Covers wächst an den oberen Rand, volle Breite.
-   Der Bildausschnitt rechnet sich dabei laufend neu (covers.css), deshalb passt er am Ende genau. */
-.home__grow {
-  position: fixed; z-index: 15; aspect-ratio: auto;
-  transition: left 0.9s, top 0.9s, width 0.9s, height 0.9s;
-  transition-timing-function: cubic-bezier(0.65, 0, 0.2, 1);
-}
+   Größe und Lage rechnet home.js aus; bewegt werden nur 'transform' und 'clip-path'. */
+.home__grow { position: fixed; z-index: 15; aspect-ratio: auto; will-change: transform, clip-path; }
 /* Teil 2 (enter.js): Die Projektseite beginnt mit dem Bild an derselben Stelle, die Einleitung ist
    noch unsichtbar. Dann gleitet das Bild an seinen Platz. */
 .enter .page-project .hero { position: fixed; inset: 0 0 auto 0; z-index: 15; }
