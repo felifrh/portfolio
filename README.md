@@ -59,3 +59,9 @@ Originalbilder, Notizen aus dem Vault, alles Private. Das Repository ist öffent
 
 Instrument Sans (SIL Open Font License, siehe `assets/fonts/InstrumentSans-OFL.txt`).
 DM Mono (SIL Open Font License) als Platzhalter, bis die Webfont-Lizenz von Aether Mono geklärt ist.
+
+## About, Contact, CV (Phase 5)
+- `content/about.json`: Text, CV-Abschnitte, Kontakt. Einzige Quelle für About-Seite und CV-PDF.
+- `cv.py`: erzeugt `assets/Felicitas-Ferch-CV.pdf` (ReportLab) aus `about.json` und den Projektdateien. Nach Textänderungen neu laufen lassen.
+- `assets/js/about.js`: Foto-Parallax, E-Mail-Adresse aus Datenattributen (Spam-Schutz) mit ausweichenden Buchstaben, Navigationsfarbe über dem schwarzen Contact-Block.
+- `assets/media/about/`: Foto in zwei Ebenen (`fog` Hintergrund, `feli` freigestellt).
