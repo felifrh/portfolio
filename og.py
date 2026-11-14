@@ -39,16 +39,16 @@ def og_image(project):
 
 
 def favicon():
-    """Milchglas-Scheibe wie der Mauszeiger: Flieder auf Schwarz."""
+    """Milchglas-Scheibe wie der Mauszeiger: Flieder auf Weiß."""
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
-           '<rect width="64" height="64" rx="14" fill="#0e0e10"/>'
+           ''
            '<defs><radialGradient id="g" cx="35%" cy="30%" r="80%">'
            '<stop offset="0" stop-color="#d9deff"/><stop offset="1" stop-color="#a9b2ff"/></radialGradient></defs>'
            '<circle cx="32" cy="32" r="17" fill="url(#g)"/></svg>')
     (ROOT / "favicon.svg").write_text(svg, encoding="utf-8")
     for size, name in ((32, "favicon-32.png"), (180, "apple-touch-icon.png")):
         S = size * 4
-        im = Image.new("RGB", (S, S), "#0e0e10")
+        im = Image.new("RGB", (S, S), "#ffffff")
         r = S * 17 / 64
         disc = Image.new("RGB", (S, S), "#a9b2ff")
         hi = Image.new("L", (S, S), 0)
