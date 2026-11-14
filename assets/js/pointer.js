@@ -5,7 +5,7 @@
 // und müssen nicht wissen, woher sie kommen.
 //
 // Handy: iPhones geben die Neigung erst nach einer Erlaubnis frei, und die darf nur nach einer
-// Berührung erfragt werden. Deshalb fragt dieses Skript beim ersten Wischen. Wird abgelehnt oder
+// Tipp erfragt werden. Deshalb zeigt dieses Skript am iPhone einen kleinen Knopf „Enable tilt“. Wird abgelehnt oder
 // fehlt der Sensor, bleibt tilt auf 0: Dann steht alles still, sonst ändert sich nichts.
 // Bei reduzierter Bewegung bleibt tilt immer 0.
 
@@ -33,14 +33,30 @@ if (!calm) {
 
   if (window.matchMedia("(pointer: coarse)").matches && "DeviceOrientationEvent" in window) {
     if (typeof DeviceOrientationEvent.requestPermission === "function") {
-      // iPhone: Erlaubnis beim ersten Wischen erfragen (ein Tipp auf ein Projekt soll nicht gestört werden)
-      let moved = false;
-      window.addEventListener("touchmove", () => (moved = true), { passive: true });
-      window.addEventListener("touchend", function ask() {
-        if (!moved) return;
-        window.removeEventListener("touchend", ask);
-        DeviceOrientationEvent.requestPermission().then((answer) => { if (answer === "granted") listen(); }).catch(() => {});
+      // iPhone: Die Erlaubnis darf nur nach einem echten Tipp erfragt werden. Ein Wischen zählt für iOS
+      // nicht als solcher (das war der Fehler in der ersten Fassung). Deshalb steht unten rechts ein kleiner
+      // Knopf; ein Tipp darauf erfragt die Erlaubnis. Wurde sie in dieser Sitzung schon erteilt, läuft es sofort.
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tilt-ask";
+      button.textContent = "Enable tilt";
+      const done = () => { button.remove(); try { sessionStorage.setItem("tilt", "on"); } catch (error) { /* egal */ } };
+      button.addEventListener("click", () => {
+        DeviceOrientationEvent.requestPermission()
+          .then((answer) => { if (answer === "granted") { listen(); done(); } else button.remove(); })
+          .catch(() => button.remove());
       });
+      let remembered = false;
+      try { remembered = sessionStorage.getItem("tilt") === "on"; } catch (error) { /* egal */ }
+      if (remembered) {
+        // Schon erlaubt: zuhören; kommt binnen 1,5 Sekunden nichts an, den Knopf doch zeigen
+        let heard = false;
+        window.addEventListener("deviceorientation", () => (heard = true), { once: true });
+        listen();
+        setTimeout(() => { if (!heard) document.body.append(button); }, 1500);
+      } else {
+        document.body.append(button);
+      }
     } else {
       listen();                                             // Android fragt nicht
     }

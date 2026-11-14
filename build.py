@@ -76,11 +76,19 @@ def cover(project, sizes, lazy=True, extra=""):
             f'{picture(project["slug"], project["cover"], sizes, lazy)}</span>')
 
 
+def preload_cover(project):
+    """Das große Bild oben auf der Projektseite schon im <head> anfordern, damit es beim Übergang von Home da ist."""
+    info = MEDIA[f"{project['slug']}/{project['cover']['file']}"]
+    base = f"{{root}}assets/media/{project['slug']}/{info['name']}"
+    srcset = ", ".join(f"{base}-{w}.webp {w}w" for w in info["widths"])
+    return f'  <link rel="preload" as="image" imagesrcset="{srcset}" imagesizes="150vw" fetchpriority="high">\n'
+
+
 def tag_labels(project):
     return " · ".join(TAGS[t] for t in project["tags"])
 
 
-def page(root, title, description, body, body_class="", scripts=(), early_script="", path=None, og_image="assets/og/default.jpg"):
+def page(root, title, description, body, body_class="", scripts=(), early_script="", head_extra="", path=None, og_image="assets/og/default.jpg"):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
     script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
                             for s in ("nav.js", "cursor.js", *scripts))
@@ -111,7 +119,7 @@ def page(root, title, description, body, body_class="", scripts=(), early_script
   <link rel="preload" href="{root}assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{root}assets/css/site.css">
   <link rel="stylesheet" href="{root}assets/css/covers.css">
-{early}{script_tags}
+{head_extra}{early}{script_tags}
 </head>
 <body class="{body_class}">
   <a class="skip" href="#main">Skip to content</a>
@@ -200,7 +208,7 @@ def project_page(project, previous, following):
   </main>"""
     title = f'{project["title"]} – {SITE["name"]}'
     return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"],
-                path=f"/work/{slug}/", og_image=f"assets/og/{slug}.jpg",
+                path=f"/work/{slug}/", og_image=f"assets/og/{slug}.jpg", head_extra=preload_cover(project),
                 early_script="enter.js")
 
 
