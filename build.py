@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SITE = json.loads((ROOT / "content/site.json").read_text(encoding="utf-8"))
 MEDIA = json.loads((ROOT / "assets/media/manifest.json").read_text(encoding="utf-8"))
+ABOUT = json.loads((ROOT / "content/about.json").read_text(encoding="utf-8"))
 TAGS = {tag["id"]: tag["label"] for tag in SITE["tags"]}
 
 
@@ -79,12 +80,22 @@ def tag_labels(project):
     return " · ".join(TAGS[t] for t in project["tags"])
 
 
-def page(root, title, description, body, body_class="", scripts=(), early_script=""):
+def page(root, title, description, body, body_class="", scripts=(), early_script="", path=None, og_image="assets/og/default.jpg"):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
     script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
                             for s in ("nav.js", "cursor.js", *scripts))
     # Ein "frühes" Skript läuft, bevor die Seite gezeichnet wird (nur enter.js auf den Projektseiten).
     early = f'  <script src="{root}assets/js/{early_script}"></script>\n' if early_script else ""
+    # Teilen: Open Graph und Twitter Card. Adressen müssen absolut sein, deshalb SITE["url"].
+    share = ""
+    if path is not None:
+        url, image = SITE["url"] + path, SITE["url"] + "/" + og_image
+        share = (f'  <link rel="canonical" href="{url}">\n'
+                 f'  <meta property="og:type" content="website">\n  <meta property="og:site_name" content="{e(SITE["name"])}">\n'
+                 f'  <meta property="og:title" content="{e(title)}">\n  <meta property="og:description" content="{e(description)}">\n'
+                 f'  <meta property="og:url" content="{url}">\n  <meta property="og:image" content="{image}">\n'
+                 f'  <meta property="og:image:width" content="1200">\n  <meta property="og:image:height" content="630">\n'
+                 f'  <meta name="twitter:card" content="summary_large_image">\n')
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,6 +103,11 @@ def page(root, title, description, body, body_class="", scripts=(), early_script
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{e(title)}</title>
   <meta name="description" content="{e(description)}">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+{share}  <link rel="icon" href="{root}favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{root}favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
   <link rel="preload" href="{root}assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{root}assets/css/site.css">
   <link rel="stylesheet" href="{root}assets/css/covers.css">
@@ -184,6 +200,7 @@ def project_page(project, previous, following):
   </main>"""
     title = f'{project["title"]} – {SITE["name"]}'
     return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"],
+                path=f"/work/{slug}/", og_image=f"assets/og/{slug}.jpg",
                 early_script="enter.js")
 
 
@@ -217,7 +234,7 @@ def index_page(projects):
     {FOOTER}
   </main>"""
     return page("../", f'Index – {SITE["name"]}', "All projects by Felicitas Ferch.", body, "page-index",
-                scripts=["filter.js", "preview.js"])
+                scripts=["filter.js", "preview.js"], path="/index/")
 
 
 def home_page(projects):
@@ -234,7 +251,7 @@ def home_page(projects):
     </div>
     {FOOTER}
   </main>"""
-    return page("./", SITE["name"], SITE["description"], body, "page-home", scripts=["home.js"])
+    return page("./", SITE["name"], SITE["description"], body, "page-home", scripts=["home.js"], path="/")
 
 
 def about_page():
@@ -284,17 +301,73 @@ def about_page():
     {FOOTER}
     </section>
   </main>"""
-    return page("../", f'About – {SITE["name"]}', SITE["description"], body, "page-about", scripts=["about.js"])
+    return page("../", f'About – {SITE["name"]}', SITE["description"], body, "page-about", scripts=["about.js"], path="/about/")
 
 
-def stub_page(folder, title):
-    """Platzhalter für Seiten späterer Phasen (Imprint, Privacy), damit kein Link ins Leere führt."""
-    body = f"""  <main id="main" class="stub">
+def mail_entities():
+    """Adresse als HTML-Zeichencodes: im Browser normaler, markierbarer Text, im Quelltext nicht als Klartext."""
+    address = ABOUT["contact"]["emailUser"] + "@" + ABOUT["contact"]["emailDomain"]
+    return "".join(f"&#{ord(c)};" for c in address)
+
+
+LEGAL = {
+    "imprint": ("Imprint", "Legal notice (Impressum) for feliferch.com.", """
+    <h2>Provider</h2>
+    <p>Felicitas Ferch<br>Freelance designer<br>Hohenstaufenstr. 34<br>75177 Pforzheim<br>Germany</p>
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:{mail}">{mail}</a></p>
+    <h2>Content</h2>
+    <p>The content of this website was created with great care. I cannot guarantee that it is complete, correct or up to date at all times.</p>
+    <h2>Links</h2>
+    <p>This website links to external websites (for example Instagram, LinkedIn and Vimeo). I have no influence on their content and am not responsible for it. At the time of linking I saw no illegal content.</p>
+    <h2>Copyright</h2>
+    <p>Texts, images and videos on this website are, unless stated otherwise, by Felicitas Ferch or by the people named in the project credits. Please ask before reusing them.</p>
+"""),
+    "privacy": ("Privacy", "How this website handles personal data: it does not set cookies or track visitors.", """
+    <h2>In short</h2>
+    <p>This website does not use cookies, analytics, tracking, contact forms, external fonts, external scripts or embedded third-party content. Fonts, images and videos are hosted on the same server as the pages.</p>
+    <h2>Controller</h2>
+    <p>Felicitas Ferch, Hohenstaufenstr. 34, 75177 Pforzheim, Germany. Email: <a href="mailto:{mail}">{mail}</a></p>
+    <h2>Hosting</h2>
+    <p>The website is hosted on GitHub Pages, a service of GitHub, Inc. (USA, part of Microsoft). When you open a page, GitHub's servers receive technical data that your browser sends anyway, such as your IP address, the time of the request, the page requested and the browser type, and store it in server log files. I have no access to these logs. The legal basis is my legitimate interest in providing the website securely (Art. 6(1)(f) GDPR). GitHub may process data in the USA; see GitHub's privacy statement for details.</p>
+    <h2>Domain</h2>
+    <p>The domain feliferch.com is registered with Checkdomain. Checkdomain handles the domain name system; visitors' browsers may query it to find this website.</p>
+    <h2>Data in your browser</h2>
+    <p>While you move between pages, your browser keeps a short note in its session storage so that the transition from the home page to a project can play smoothly. It contains no personal data and disappears when you close the tab. If you use a phone, the website may read the device's motion sensor to tilt images. This stays on your device and is never sent anywhere.</p>
+    <h2>Email</h2>
+    <p>If you write to me, I process your address and message to answer you. I delete them when the conversation is finished, unless I am required to keep them. The legal basis is Art. 6(1)(b) or (f) GDPR.</p>
+    <h2>Your rights</h2>
+    <p>You have the right to access, correction, deletion, restriction of processing, data portability and objection. You can also complain to a data protection authority, for example the State Commissioner for Data Protection and Freedom of Information of Baden-Württemberg (LfDI Baden-Württemberg).</p>
+"""),
+}
+
+
+def legal_page(folder):
+    title, description, text = LEGAL[folder]
+    body = f"""  <main id="main" class="stub legal">
     <h1>{e(title)}</h1>
-    <p>This page is not built yet.</p>
+{text.replace("{mail}", mail_entities())}
     {FOOTER}
   </main>"""
-    return page("../", f'{title} – {SITE["name"]}', title, body)
+    return page("../", f'{title} – {SITE["name"]}', description, body, path=f"/{folder}/")
+
+
+def not_found_page():
+    """404. Liegt im Hauptordner; GitHub Pages zeigt sie unter jeder unbekannten Adresse. Adressen beginnen
+    deshalb mit '/', nicht mit '../' (gilt auf der eigenen Domain, nicht in der Vorschau unter einem Unterordner)."""
+    body = f"""  <main id="main" class="stub legal">
+    <p class="mono">404</p>
+    <h1>This page does not exist.</h1>
+    <p>The address may have changed, or it was never there. <a href="/">Back to the start</a> or <a href="/index/">see all projects</a>.</p>
+    {FOOTER}
+  </main>"""
+    return page("/", f'Page not found – {SITE["name"]}', "This page does not exist.", body)
+
+
+def sitemap(projects):
+    paths = ["/", "/index/", "/about/", "/imprint/", "/privacy/"] + [f"/work/{p['slug']}/" for p in projects]
+    rows = "\n".join(f"  <url><loc>{SITE['url']}{p}</loc></url>" for p in paths)
+    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{rows}\n</urlset>\n'
 
 
 def covers_css(projects):
@@ -330,8 +403,11 @@ def main():
     write("index/index.html", index_page(projects))
     write("index.html", home_page(projects))
     write("about/index.html", about_page())
-    for folder, title in [("imprint", "Imprint"), ("privacy", "Privacy")]:
-        write(f"{folder}/index.html", stub_page(folder, title))
+    for folder in LEGAL:
+        write(f"{folder}/index.html", legal_page(folder))
+    write("404.html", not_found_page())
+    write("sitemap.xml", sitemap(projects))
+    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")
 
 
 if __name__ == "__main__":
