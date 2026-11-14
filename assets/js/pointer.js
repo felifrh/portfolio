@@ -4,9 +4,9 @@
 // im Fenster, auf dem Handy von der Neigung des Geräts. Andere Skripte lesen nur diese zwei Werte
 // und müssen nicht wissen, woher sie kommen.
 //
-// Handy: iPhones geben die Neigung erst nach einer Erlaubnis frei, und die darf nur nach einer
-// Tipp erfragt werden. Deshalb zeigt dieses Skript am iPhone einen kleinen Knopf „Enable tilt“. Wird abgelehnt oder
-// fehlt der Sensor, bleibt tilt auf 0: Dann steht alles still, sonst ändert sich nichts.
+// Handy: Android liefert die Neigung direkt. iPhones verlangen eine Erlaubnis per Tipp; darauf wird
+// verzichtet (Entscheidung 14.11.), dort bleibt tilt 0 und alles steht still. Fehlt der Sensor,
+// bleibt tilt ebenfalls 0.
 // Bei reduzierter Bewegung bleibt tilt immer 0.
 
 export const tilt = { x: 0, y: 0 };
