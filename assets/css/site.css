@@ -428,9 +428,15 @@ ul, ol { list-style: none; }
 .page-about .nav { mix-blend-mode: normal; color: #0e0e10; transition: transform 0.35s ease, color 0.25s ease; }
 .page-about .nav.nav--on-dark { color: #fff; }
 
-/* Desktop: das Foto nicht über die ganze Breite, sondern kleiner, bündig mit dem Textraster. */
+/* Desktop: Text links, Foto rechts daneben. Darunter laufen Lebenslauf und Contact wieder über die volle Breite.
+   Ab 900 px Fensterbreite; darunter (Handy, schmale Fenster) steht das Foto oben und der Text darunter. */
 @media (min-width: 900px) {
-  .portrait { width: min(calc(100% - 2 * var(--pad)), 56rem); max-height: 62svh; margin: calc(var(--nav-height) + 1rem) var(--pad) 0; }
+  .page-about main.about { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 6rem); align-items: start; }
+  .page-about .portrait { grid-column: 2; grid-row: 1; width: auto; aspect-ratio: 4 / 5; max-height: calc(100svh - var(--nav-height) - 3rem);
+    margin: calc(var(--nav-height) + 1rem) var(--pad) 0 0; }
+  .page-about .about__text { grid-column: 1; grid-row: 1; padding: calc(var(--nav-height) + 3rem) 0 2rem var(--pad); align-self: center; }
+  .page-about .about__text p { font-size: clamp(1.1rem, 1.55vw, 1.55rem); }
+  .page-about .cv, .page-about .contact { grid-column: 1 / -1; }
 }
 
 /* ---------- Imprint, Privacy, 404 ---------- */
