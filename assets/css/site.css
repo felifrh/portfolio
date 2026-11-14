@@ -440,11 +440,3 @@ ul, ol { list-style: none; }
 .legal p { max-width: 40rem; }
 .legal a { text-decoration: underline; text-underline-offset: 0.2em; }
 .legal .mono { font-family: var(--font-mono, "DM Mono", monospace); font-size: 0.85rem; }
-
-/* iPhone: Knopf, der die Neigung freigibt (pointer.js). Nur auf Touch-Geräten mit Erlaubnisabfrage da. */
-.tilt-ask {
-  position: fixed; right: var(--pad); bottom: 1rem; z-index: 2100;
-  font: inherit; font-family: var(--font-mono); font-size: var(--mono); color: #0e0e10;
-  background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(14, 14, 16, 0.25); border-radius: 999px;
-  padding: 0.55rem 1rem; min-height: 2.75rem;
-}

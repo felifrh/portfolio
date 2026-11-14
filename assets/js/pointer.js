@@ -33,30 +33,8 @@ if (!calm) {
 
   if (window.matchMedia("(pointer: coarse)").matches && "DeviceOrientationEvent" in window) {
     if (typeof DeviceOrientationEvent.requestPermission === "function") {
-      // iPhone: Die Erlaubnis darf nur nach einem echten Tipp erfragt werden. Ein Wischen zählt für iOS
-      // nicht als solcher (das war der Fehler in der ersten Fassung). Deshalb steht unten rechts ein kleiner
-      // Knopf; ein Tipp darauf erfragt die Erlaubnis. Wurde sie in dieser Sitzung schon erteilt, läuft es sofort.
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "tilt-ask";
-      button.textContent = "Enable tilt";
-      const done = () => { button.remove(); try { sessionStorage.setItem("tilt", "on"); } catch (error) { /* egal */ } };
-      button.addEventListener("click", () => {
-        DeviceOrientationEvent.requestPermission()
-          .then((answer) => { if (answer === "granted") { listen(); done(); } else button.remove(); })
-          .catch(() => button.remove());
-      });
-      let remembered = false;
-      try { remembered = sessionStorage.getItem("tilt") === "on"; } catch (error) { /* egal */ }
-      if (remembered) {
-        // Schon erlaubt: zuhören; kommt binnen 1,5 Sekunden nichts an, den Knopf doch zeigen
-        let heard = false;
-        window.addEventListener("deviceorientation", () => (heard = true), { once: true });
-        listen();
-        setTimeout(() => { if (!heard) document.body.append(button); }, 1500);
-      } else {
-        document.body.append(button);
-      }
+      // iPhone: verlangt eine Erlaubnis per Tipp. Wegen des geringen Mehrwerts wird darauf verzichtet
+      // (Entscheidung 14.11.): Dort bleibt tilt auf 0, alles steht still.
     } else {
       listen();                                             // Android fragt nicht
     }
