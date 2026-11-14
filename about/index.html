@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About – Felicitas Ferch</title>
-  <meta name="description" content="About">
+  <meta name="description" content="Interaction designer working with tangible and material interfaces.">
   <link rel="preload" href="../assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/site.css">
   <link rel="stylesheet" href="../assets/css/covers.css">
   <script type="module" src="../assets/js/nav.js"></script>
   <script type="module" src="../assets/js/cursor.js"></script>
+  <script type="module" src="../assets/js/about.js"></script>
 </head>
-<body class="">
+<body class="page-about">
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
     <a class="nav__name" href="../">Felicitas Ferch</a>
@@ -21,14 +22,86 @@
       <a href="../about/#contact">Contact</a>
     </nav>
   </header>
-  <main id="main" class="stub">
-    <h1>About</h1>
-    <p>This page is not built yet.</p>
+  <main id="main" class="about">
+    <h1 class="visually-hidden">About Felicitas Ferch</h1>
+    <figure class="portrait">
+      <img class="portrait__fog" src="../assets/media/about/fog-1800.webp" srcset="../assets/media/about/fog-900.webp 900w, ../assets/media/about/fog-1800.webp 1800w"
+           sizes="100vw" width="1800" height="1193" alt="Black-and-white photograph of Felicitas Ferch in profile: long dark hair, glasses and a dark jacket, standing on a foggy shore and looking out to the left." fetchpriority="high">
+      <img class="portrait__feli" src="../assets/media/about/feli-1800.webp" srcset="../assets/media/about/feli-900.webp 900w, ../assets/media/about/feli-1800.webp 1800w"
+           sizes="100vw" width="1800" height="1193" alt="" aria-hidden="true">
+    </figure>
+    <div class="about__text">
+        <p>I&#x27;m Felicitas Ferch, an interaction designer working with tangible and material interfaces. I like to build things people can touch, shape and talk to: a clay 3D printer controlled by hand gestures, an installation in which visitors shape objects by touching water, a system for conversing with an AI by lifting stones. I&#x27;m drawn to the place where the analog and the digital meet, through physical computing, real-time systems and craft.</p>
+        <p>I studied Communication Design in Würzburg (B.A., 2024) and am now finishing my M.A. in Design &amp; Future Making at Pforzheim University. Research has become an important part of my work: first at a design research center in Würzburg, then on the project Human AI with Fraunhofer IIS, which won Designer in Lab 2023.</p>
+        <p>Alongside my studies I work as graphic design support at Fraunhofer IAPT and take on freelance design projects. In 2026 I spent a semester at Hongik University in South Korea. In September I supported the course Generative Objects at Pforzheim University as a research assistant, introducing students to clay 3D printing.</p>
+      <p class="about__cv"><a href="../assets/Felicitas-Ferch-CV.pdf">Download CV (PDF)</a></p>
+    </div>
+    <div class="cv">
+      <section class="cv__block">
+        <h2>Experience</h2>
+        <ul>
+          <li><span class="cv__lead">Freelance designer</span><span class="cv__meta">since 2018</span><span class="cv__text">graphic design, corporate identity development, animation, social media for clients, mainly small brands and Fraunhofer</span></li>
+          <li><span class="cv__lead">Research assistant, Pforzheim University</span><span class="cv__meta">September 2026</span><span class="cv__text">course Generative Objects, clay 3D printing</span></li>
+          <li><span class="cv__lead">Working student, Fraunhofer IAPT</span><span class="cv__meta">since May 2024</span><span class="cv__text">graphic design and communication (posters, flyers, animation, social media, trade fair support)</span></li>
+          <li><span class="cv__lead">Designer, Fraunhofer IIS</span><span class="cv__meta">March 2023 – May 2025</span><span class="cv__text">research project Human AI, winner of Designer in Lab 2023; jury member of Designer in Lab 2025</span></li>
+          <li><span class="cv__lead">Animation designer (freelance), Fraunhofer IIS</span><span class="cv__meta">September 2022</span><span class="cv__text">twelve animations for a study on the use of AI in medical contexts</span></li>
+          <li><span class="cv__lead">Intern, then working student, Steinbeis Research Center Design and Systems, Würzburg</span><span class="cv__meta">March 2022 – September 2023</span><span class="cv__text">UI/UX and interaction design for automotive clients (under NDA, among others Mercedes-Benz), website and marketing concepts for the app Smill (Koenig &amp; Bauer)</span></li>
+        </ul>
+      </section>
+      <section class="cv__block">
+        <h2>Education</h2>
+        <ul>
+          <li><span class="cv__lead">M.A. Design &amp; Future Making, Pforzheim University</span><span class="cv__meta">since winter semester 2024/25</span></li>
+          <li><span class="cv__lead">Exchange semester, Hongik University, South Korea</span><span class="cv__meta">March – July 2026</span></li>
+          <li><span class="cv__lead">B.A. Communication Design, Technical University of Applied Sciences Würzburg-Schweinfurt</span><span class="cv__meta">2019 – 2024</span><span class="cv__text">final grade 1.3</span></li>
+        </ul>
+      </section>
+      <section class="cv__block">
+        <h2>Skills</h2>
+        <ul>
+          <li><span class="cv__lead">Concept &amp; design</span><span class="cv__text">interaction design, UI/UX, graphic and editorial design, typography, web design, photography, film post-production</span></li>
+          <li><span class="cv__lead">Physical computing &amp; real time</span><span class="cv__text">Arduino, Raspberry Pi, TouchDesigner, Python, Processing, hand tracking (MediaPipe, Leap Motion)</span></li>
+          <li><span class="cv__lead">XR &amp; 3D</span><span class="cv__text">Unity (C#), AR Foundation, ARKit, Vuforia, Blender, Rhino, Clo3D, Cinema 4D, Unreal Engine</span></li>
+          <li><span class="cv__lead">Web</span><span class="cv__text">JavaScript, Next.js, Three.js, GLSL, Flask, Webflow, HTML/CSS</span></li>
+          <li><span class="cv__lead">Fabrication &amp; craft</span><span class="cv__text">clay 3D printing (Lutum 4.6), G-code, laser cutting, FDM printing, screen printing, ceramics</span></li>
+          <li><span class="cv__lead">Languages</span><span class="cv__text">German (native), English (fluent), Italian (B1), Korean (beginner)</span></li>
+        </ul>
+      </section>
+      <section class="cv__block">
+        <h2>Exhibitions &amp; talks</h2>
+        <ul>
+          <li><span class="cv__lead">Festival der Zukunft, Munich</span><span class="cv__meta">2024</span><span class="cv__text">panel on AI and the museum of the future</span></li>
+          <li><span class="cv__lead">Innovative Citizen, Dortmund</span><span class="cv__meta">2024</span></li>
+          <li><span class="cv__lead">Munich Creative Business Week, Deutsches Museum</span><span class="cv__meta">2025</span></li>
+          <li><span class="cv__lead">Ars Electronica Festival, Linz</span><span class="cv__meta">2025</span></li>
+          <li><span class="cv__lead">Dutch Design Week, Eindhoven</span><span class="cv__meta">2025, 2026</span></li>
+          <li><span class="cv__lead">A.K.T;, Pforzheim</span><span class="cv__meta">2025, 2026</span><span class="cv__text">Future Narratives (2025), In der Heimat zu Gast / Relations: Mirror Machines 3 (2026)</span></li>
+          <li><span class="cv__lead">Kunstverein Heilbronn, Kunsthalle Vogelmann</span><span class="cv__meta">2026</span></li>
+          <li><span class="cv__lead">Milan Design Week</span><span class="cv__meta">2026</span></li>
+          <li><span class="cv__lead">Werkschau Pforzheim</span><span class="cv__meta">2025, 2026</span></li>
+        </ul>
+      </section>
+      <section class="cv__block">
+        <h2>Workshops &amp; teaching</h2>
+        <ul>
+          <li><span class="cv__lead">Clay 3D printing, course Generative Objects, Pforzheim University</span><span class="cv__meta">September 2026</span></li>
+          <li><span class="cv__lead">Ceramics workshop on hand-building techniques for ten participants at bg_raum</span><span class="cv__meta">December 2025</span></li>
+          <li><span class="cv__lead">TouchDesigner workshop with Jannis Schmidl, followed by an exhibition event</span><span class="cv__meta">October / November 2025</span></li>
+          <li><span class="cv__lead">Jury member, Designer in Lab 2025 (Fraunhofer network, Berlin)</span><span class="cv__meta">2025</span></li>
+        </ul>
+      </section>
+    </div>
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <h2 class="contact__label" id="contact-title">Contact</h2>
+      <p class="contact__text">I&#x27;m always happy to exchange ideas, so feel free to write me an email.</p>
+      <a class="mail" href="#contact" data-user="feliferch" data-domain="gmail.com">feliferch [at] gmail.com</a>
+      <ul class="contact__links"><li><a href="https://www.instagram.com/felifrh/" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/in/felicitas-ferch-9a5586309/" rel="noopener">LinkedIn</a></li></ul>
     <footer class="footer">
       <span>© Felicitas Ferch</span>
       <a href="../imprint/">Imprint</a>
       <a href="../privacy/">Privacy</a>
     </footer>
+    </section>
   </main>
 </body>
 </html>

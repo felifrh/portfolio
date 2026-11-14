@@ -5,7 +5,7 @@ build.py: erzeugt alle HTML-Seiten aus den Datendateien.
 Aufruf:   python3 build.py
 Eingabe:  content/site.json, content/projects/*.json, assets/media/manifest.json
           (das Manifest schreiben images.py und videos.py: Maße aller Bilder und Videos)
-Ausgabe:  index.html (Home), index/index.html (Index), work/<slug>/index.html (Projekte),
+Ausgabe:  index.html (Home), index/index.html (Index), work/<slug>/index.html (Projekte), about/index.html,
           assets/css/covers.css (Bildausschnitte der Cover)
 
 Warum so: Navigation, Fußzeile und Seitenkopf stehen nur hier, einmal. Ein neues Projekt
@@ -237,8 +237,58 @@ def home_page(projects):
     return page("./", SITE["name"], SITE["description"], body, "page-home", scripts=["home.js"])
 
 
+def about_page():
+    """About und Contact auf einer Seite. Der Inhalt steht in content/about.json."""
+    about = json.loads((ROOT / "content/about.json").read_text(encoding="utf-8"))
+    paragraphs = "\n".join(f"        <p>{e(p)}</p>" for p in about["text"])
+    blocks = []
+    for section in about["sections"]:
+        items = []
+        for item in section["items"]:
+            line = f'          <li><span class="cv__lead">{e(item["lead"])}</span>'
+            if item["meta"]:
+                line += f'<span class="cv__meta">{e(item["meta"])}</span>'
+            if item["text"]:
+                line += f'<span class="cv__text">{e(item["text"])}</span>'
+            items.append(line + "</li>")
+        items = "\n".join(items)
+        blocks.append(f"""      <section class="cv__block">
+        <h2>{e(section["title"])}</h2>
+        <ul>
+{items}
+        </ul>
+      </section>""")
+    contact = about["contact"]
+    links = "".join(f'<li><a href="{e(l["url"])}" rel="noopener">{e(l["label"])}</a></li>' for l in contact["links"])
+    media = "{root}assets/media/about"
+    body = f"""  <main id="main" class="about">
+    <h1 class="visually-hidden">About {e(SITE["name"])}</h1>
+    <figure class="portrait">
+      <img class="portrait__fog" src="{media}/fog-1800.webp" srcset="{media}/fog-900.webp 900w, {media}/fog-1800.webp 1800w"
+           sizes="100vw" width="1800" height="1193" alt="{e(about["photoAlt"])}" fetchpriority="high">
+      <img class="portrait__feli" src="{media}/feli-1800.webp" srcset="{media}/feli-900.webp 900w, {media}/feli-1800.webp 1800w"
+           sizes="100vw" width="1800" height="1193" alt="" aria-hidden="true">
+    </figure>
+    <div class="about__text">
+{paragraphs}
+      <p class="about__cv"><a href="{{root}}assets/{e(about["cv"]["file"])}">{e(about["cv"]["label"])}</a></p>
+    </div>
+    <div class="cv">
+{chr(10).join(blocks)}
+    </div>
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <h2 class="contact__label" id="contact-title">Contact</h2>
+      <p class="contact__text">{e(contact["text"])}</p>
+      <a class="mail" href="#contact" data-user="{e(contact["emailUser"])}" data-domain="{e(contact["emailDomain"])}">{e(contact["emailUser"])} [at] {e(contact["emailDomain"])}</a>
+      <ul class="contact__links">{links}</ul>
+    {FOOTER}
+    </section>
+  </main>"""
+    return page("../", f'About – {SITE["name"]}', SITE["description"], body, "page-about", scripts=["about.js"])
+
+
 def stub_page(folder, title):
-    """Platzhalter für Seiten späterer Phasen (About, Imprint, Privacy), damit kein Link ins Leere führt."""
+    """Platzhalter für Seiten späterer Phasen (Imprint, Privacy), damit kein Link ins Leere führt."""
     body = f"""  <main id="main" class="stub">
     <h1>{e(title)}</h1>
     <p>This page is not built yet.</p>
@@ -279,7 +329,8 @@ def main():
         write(f"work/{project['slug']}/index.html", project_page(project, previous, following))
     write("index/index.html", index_page(projects))
     write("index.html", home_page(projects))
-    for folder, title in [("about", "About"), ("imprint", "Imprint"), ("privacy", "Privacy")]:
+    write("about/index.html", about_page())
+    for folder, title in [("imprint", "Imprint"), ("privacy", "Privacy")]:
         write(f"{folder}/index.html", stub_page(folder, title))
 
 

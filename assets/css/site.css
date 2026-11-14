@@ -360,6 +360,58 @@ ul, ol { list-style: none; }
   .cursor::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--lilac); }
 }
 
+/* ---------- About und Contact ---------- */
+/* Foto in zwei Ebenen: Nebel hinten, Feli freigestellt davor. about.js setzt --look-x und --look-y
+   (-1 bis 1); die Ebenen verschieben sich gegenläufig, das wirkt räumlich. Beide sind etwas größer
+   als der Rahmen, damit beim Verschieben kein Rand sichtbar wird. */
+.portrait {
+  --look-x: 0; --look-y: 0;
+  position: relative; overflow: hidden; aspect-ratio: 1800 / 1193; max-height: 92svh; width: 100%;
+}
+.portrait img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 55% 60%; }
+.portrait__fog { transform: translate(calc(var(--look-x) * 0.6%), calc(var(--look-y) * 0.6%)) scale(1.05); }
+.portrait__feli { transform: translate(calc(var(--look-x) * -1.2%), calc(var(--look-y) * -0.8%)) scale(1.05); }
+
+.about__text { padding: 4rem var(--pad) 2rem; display: grid; gap: 1.2em; max-width: 62rem; }
+.about__text p { font-size: clamp(1.25rem, 2.1vw, 1.9rem); line-height: 1.35; letter-spacing: -0.005em; }
+.about__text .about__cv { font-family: var(--font-mono); font-size: var(--mono); letter-spacing: 0.01em; margin-top: 1rem; }
+.about__cv a { display: inline-block; padding: 0.75rem 0; }
+
+/* Die Liste: links die Überschrift in Mono, rechts die Einträge */
+.cv { padding: 3rem var(--pad) 6rem; }
+.cv__block { display: grid; gap: 1rem var(--pad); padding: 1.5rem 0; border-top: 1px solid currentColor; }
+.cv__block h2, .cv__meta, .contact__label, .contact__links {
+  font-family: var(--font-mono); font-size: var(--mono); line-height: 1.5; letter-spacing: 0.01em;
+}
+.cv__block li { display: grid; gap: 0.1rem 1.5rem; padding: 0.55rem 0; }
+.cv__lead { font-size: 1.0625rem; line-height: 1.4; }
+.cv__meta { opacity: 0.6; }
+.cv__text { font-size: 1rem; line-height: 1.45; opacity: 0.75; max-width: 46em; }
+@media (min-width: 900px) {
+  .cv__block { grid-template-columns: 3fr 9fr; }
+  .cv__block li { grid-template-columns: 1fr 14rem; }
+  .cv__meta { grid-column: 2; grid-row: 1; text-align: right; }
+  .cv__text { grid-column: 1; }
+}
+
+/* Contact: schwarzer Abschluss wie auf den Projektseiten, darin die sehr große Adresse */
+.contact {
+  background: var(--black); color: var(--white);
+  padding: 5rem var(--pad) 0; min-height: 100svh; display: flex; flex-direction: column;
+}
+.contact__label { opacity: 0.6; margin-bottom: 1rem; }
+.contact__text { font-size: clamp(1.25rem, 2.1vw, 1.9rem); line-height: 1.35; max-width: 24em; }
+/* Die Adresse füllt die Breite: 19 Zeichen, die Schriftgröße richtet sich nach der Fensterbreite */
+.mail {
+  display: block; margin: auto 0; padding: 3rem 0; white-space: nowrap; text-decoration: none;
+  font-size: min(9.3vw, 12rem); line-height: 1; letter-spacing: -0.035em;
+}
+.mail span { display: inline-block; will-change: transform; }
+.mail:hover { color: var(--lilac); }
+.contact__links { display: flex; gap: 2rem; }
+.contact__links a { display: inline-block; padding: 0.75rem 0; }
+.contact .footer { margin-top: 2rem; }
+
 /* ---------- Platzhalterseiten ---------- */
 .stub { padding: calc(var(--nav-height) + 14vh) var(--pad) 0; min-height: 100svh; display: grid; gap: 1rem; align-content: start; }
 .stub h1 { font-size: clamp(3rem, 11vw, 10rem); line-height: 0.95; letter-spacing: -0.035em; }
@@ -368,3 +420,7 @@ ul, ol { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* About: das Foto ist mittelgrau, 'difference' wäre dort unlesbar. Dunkle Schrift, über dem schwarzen Contact-Block hell. */
+.page-about .nav { mix-blend-mode: normal; color: #0e0e10; transition: transform 0.35s ease, color 0.25s ease; }
+.page-about .nav.nav--on-dark { color: #fff; }
