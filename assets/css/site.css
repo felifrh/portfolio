@@ -424,3 +424,8 @@ ul, ol { list-style: none; }
 /* About: das Foto ist mittelgrau, 'difference' wäre dort unlesbar. Dunkle Schrift, über dem schwarzen Contact-Block hell. */
 .page-about .nav { mix-blend-mode: normal; color: #0e0e10; transition: transform 0.35s ease, color 0.25s ease; }
 .page-about .nav.nav--on-dark { color: #fff; }
+
+/* Desktop: das Foto nicht über die ganze Breite, sondern kleiner, bündig mit dem Textraster. */
+@media (min-width: 900px) {
+  .portrait { width: min(calc(100% - 2 * var(--pad)), 56rem); max-height: 62svh; margin: calc(var(--nav-height) + 1rem) var(--pad) 0; }
+}
