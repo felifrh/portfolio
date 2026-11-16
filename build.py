@@ -88,12 +88,25 @@ def tag_labels(project):
     return " · ".join(TAGS[t] for t in project["tags"])
 
 
+def asset_version():
+    """Kurzer Stempel aus dem Inhalt aller CSS- und JS-Dateien. Er hängt als '?v=...' an den Links, damit der
+    Browser nach jeder Änderung die neuen Dateien holt und nichts Altes aus dem Zwischenspeicher nimmt
+    (GitHub Pages erlaubt bis zu 10 Minuten Zwischenspeicher). Die Dateien, die andere Skripte laden
+    (z. B. pointer.js), ändern sich selten und haben keinen eigenen Stempel."""
+    import hashlib
+    digest = hashlib.sha1()
+    for path in sorted((ROOT / "assets").glob("css/*.css")) + sorted((ROOT / "assets").glob("js/*.js")):
+        digest.update(path.read_bytes())
+    return digest.hexdigest()[:8]
+
+
 def page(root, title, description, body, body_class="", scripts=(), early_script="", head_extra="", path=None, og_image="assets/og/default.jpg", home_href=""):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
-    script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
+    v = asset_version()
+    script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}?v={v}"></script>'
                             for s in ("nav.js", "cursor.js", *scripts))
     # Ein "frühes" Skript läuft, bevor die Seite gezeichnet wird (nur enter.js auf den Projektseiten).
-    early = f'  <script src="{root}assets/js/{early_script}"></script>\n' if early_script else ""
+    early = f'  <script src="{root}assets/js/{early_script}?v={v}"></script>\n' if early_script else ""
     # Teilen: Open Graph und Twitter Card. Adressen müssen absolut sein, deshalb SITE["url"].
     share = ""
     if path is not None:
@@ -117,8 +130,8 @@ def page(root, title, description, body, body_class="", scripts=(), early_script
   <link rel="icon" href="{root}favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
   <link rel="preload" href="{root}assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="{root}assets/css/site.css">
-  <link rel="stylesheet" href="{root}assets/css/covers.css">
+  <link rel="stylesheet" href="{root}assets/css/site.css?v={v}">
+  <link rel="stylesheet" href="{root}assets/css/covers.css?v={v}">
 {head_extra}{early}{script_tags}
 </head>
 <body class="{body_class}">
