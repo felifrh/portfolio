@@ -350,12 +350,15 @@ ul, ol { list-style: none; }
   .cursor.is-project { --size: 68px; }
   .cursor.is-pressed::before { background: rgb(169 178 255 / 0.7); }
   .cursor.is-away { opacity: 0; }
-  /* Titel und Jahr neben der Scheibe (nur Startseite) */
+  /* Der Einzeiler des Projekts neben der Scheibe (nur Startseite). Er bricht um; am rechten Fensterrand
+     klappt er nach links (Klasse is-flipped, cursor.js), damit er nicht abgeschnitten wird. */
   .cursor__label {
-    position: absolute; left: calc(var(--size) / 2 + 0.6rem); top: -0.75rem; white-space: nowrap;
-    font-family: var(--font-mono); font-size: var(--mono); line-height: 1.5rem;
-    background: var(--white); color: var(--black); padding: 0 0.4rem;
+    position: absolute; left: calc(var(--size) / 2 + 0.6rem); top: -0.75rem;
+    width: max-content; max-width: 20rem; white-space: normal;
+    font-family: var(--font-mono); font-size: var(--mono); line-height: 1.4;
+    background: var(--white); color: var(--black); padding: 0.2rem 0.5rem;
   }
+  .cursor.is-flipped .cursor__label { left: auto; right: calc(var(--size) / 2 + 0.6rem); }
   .cursor__label:empty { display: none; }
 }
 /* Reduzierte Transparenz: schlichte getönte Fläche ohne Weichzeichner */

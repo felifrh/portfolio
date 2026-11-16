@@ -214,11 +214,11 @@ def project_page(project, previous, following):
 def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem", cursor_label=False):
     """Die Projektliste. Sie steht als normale Liste im HTML und ist ohne JavaScript benutzbar.
     'sizes' sagt dem Browser, wie breit das Cover gezeigt wird (Index klein, Home groß).
-    'data-cursor' macht den Mauszeiger über der Zeile groß; mit 'cursor_label' steht Titel und Jahr daneben."""
+    'data-cursor' macht den Mauszeiger über der Zeile groß; mit 'cursor_label' steht der Einzeiler (oneLiner) daneben."""
     rows = []
     for number, p in enumerate(projects, start=1):
         rows.append(f"""      <li class="row" data-tags="{' '.join(p['tags'])}">
-        <a href="{{root}}work/{p['slug']}/" data-cursor="{e(p['title'] + ' · ' + p['year']) if cursor_label else ''}">
+        <a href="{{root}}work/{p['slug']}/" data-cursor="{e(p['oneLiner']) if cursor_label else ''}">
           <span class="row__num">{number:02d}</span>
           {cover(p, sizes)}
           <span class="row__title">{e(p['title'])}</span>

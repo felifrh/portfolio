@@ -1,7 +1,7 @@
 // cursor.js: der eigene Mauszeiger, eine runde Scheibe aus Milchglas.
 //
 // Nur bei Mausbedienung. In Ruhe ist die Scheibe klein, über Links etwas größer, über Projektbildern
-// groß; auf der Startseite steht dann Titel und Jahr daneben. Die Scheibe sitzt ohne Verzögerung
+// groß; auf der Startseite steht dann der Einzeiler des Projekts daneben. Die Scheibe sitzt ohne Verzögerung
 // genau an der Maus, weich verändert sich nur ihre Größe (CSS).
 // Ohne dieses Skript bleibt der normale Mauszeiger des Systems.
 
@@ -23,6 +23,8 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     cursor.classList.toggle("is-project", Boolean(project));
     cursor.classList.toggle("is-link", Boolean(link) && !project);
     label.textContent = project ? project.dataset.cursor : "";
+    // Reicht rechts der Platz nicht, steht der Text links von der Scheibe
+    cursor.classList.toggle("is-flipped", label.textContent !== "" && event.clientX + label.offsetWidth + 60 > window.innerWidth);
   });
 
   // Verlässt die Maus das Fenster, verschwindet die Scheibe
