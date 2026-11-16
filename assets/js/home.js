@@ -194,12 +194,11 @@ if (stage && !calm) {
     large.srcset = image.srcset; large.sizes = "150vw";
     const loaded = large.decode().then(() => (image.sizes = "150vw")).catch(() => {});
 
-    try {
-      sessionStorage.setItem("enter", links[i].href);        // sagt der Projektseite: mit Übergang beginnen
-      sessionStorage.setItem("home-front", i);               // merkt sich, wo wir waren (für "zurück")
-    } catch (error) { /* ohne Speicher gibt es nur den ersten Teil des Übergangs */ }
+    // Wo wir waren, merkt sich der Browser-Verlauf (history.state) für "Zurück". Das ist kein Gerätespeicher.
+    try { history.replaceState({ homeFront: i }, ""); } catch (error) { /* egal */ }
 
-    Promise.all([grow.finished, Promise.race([loaded, wait(1500)])]).then(() => (location.href = links[i].href));
+    // "?enter" in der Adresse sagt der Projektseite: mit Übergang beginnen (sie entfernt es sofort wieder).
+    Promise.all([grow.finished, Promise.race([loaded, wait(1500)])]).then(() => (location.href = links[i].href + "?enter"));
   }
 
   // "Zurück" im Browser: Startseite wieder in den Ausgangszustand bringen
@@ -209,8 +208,7 @@ if (stage && !calm) {
     stage.classList.remove("is-leaving");
     leaving = false;
   });
-  let remembered = 0;
-  try { remembered = Number(sessionStorage.getItem("home-front")) || 0; } catch (error) { /* egal */ }
+  const remembered = Number(history.state && history.state.homeFront) || 0;
   target = position = remembered;
 
   window.addEventListener("resize", measure);

@@ -18,11 +18,13 @@
     window.addEventListener("pageshow", toTop);
   }
 
-  // 2. Kommen wir gerade von der Startseite? (home.js hat sich diese Adresse gemerkt)
-  try {
-    if (sessionStorage.getItem("enter") !== location.href.split("#")[0]) return;
-    sessionStorage.removeItem("enter");
-  } catch (error) { return; }                 // z. B. wenn der Browser den Speicher sperrt
+  // 2. Kommen wir gerade von der Startseite? (home.js hängt dafür "?enter" an die Adresse.)
+  //    Danach wird es sofort entfernt, damit Neuladen und Teilen der Adresse sauber bleiben.
+  var params = new URLSearchParams(location.search);
+  if (!params.has("enter")) return;
+  params.delete("enter");
+  var rest = params.toString();
+  history.replaceState(history.state, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
 
   root.classList.add("enter");                // CSS: großes Bild oben festhalten, Einleitung verbergen
 
