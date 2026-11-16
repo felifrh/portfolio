@@ -8,7 +8,7 @@
 //
 // Bei reduzierter Bewegung tut dieses Skript nichts: Dann bleibt die Startseite die schlichte Liste.
 
-import { tilt } from "./pointer.js";   // Maus oder Handyneigung, je -1 bis 1
+import { tilt } from "./pointer.js";   // Mausposition, -1 bis 1
 
 const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const stage = document.querySelector(".home__stage");

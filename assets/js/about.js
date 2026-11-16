@@ -1,7 +1,7 @@
 // about.js: die zwei Bewegungen der About-Seite.
 //
 // 1. Foto: Feli ist vom Nebel freigestellt und liegt als eigene Ebene über dem Hintergrund.
-//    Beide verschieben sich leicht gegeneinander, mit der Maus oder der Handyneigung (pointer.js).
+//    Beide verschieben sich leicht gegeneinander, mit der Maus (pointer.js).
 // 2. E-Mail-Adresse: Die Buchstaben weichen der Bewegung der Maus ein wenig aus und kommen zur Ruhe,
 //    sobald die Maus stillsteht. Auf dem Handy reagieren sie auf die Neigung.
 //

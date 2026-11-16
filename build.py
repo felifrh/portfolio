@@ -340,7 +340,7 @@ LEGAL_TEXT = """
     <h3>Domain</h3>
     <p>The domain feliferch.com is registered with Checkdomain. Checkdomain handles the domain name system; visitors' browsers may query it to find this website.</p>
     <h3>Data in your browser</h3>
-    <p>The website stores nothing on your device. If you use a phone, it may read the device's motion sensor to tilt images. This stays on your device and is never sent anywhere.</p>
+    <p>The website stores nothing on your device and does not access its sensors.</p>
     <h3>External links</h3>
     <p>Links to other websites (for example Instagram, LinkedIn and Vimeo) are plain links. Data is only sent to those providers if you click one, and their own privacy statements then apply.</p>
     <h3>Email</h3>
