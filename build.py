@@ -140,8 +140,7 @@ def page(root, title, description, body, body_class="", scripts=(), early_script
 
 FOOTER = """<footer class="footer">
       <span>© Felicitas Ferch</span>
-      <a href="{root}imprint/">Imprint</a>
-      <a href="{root}privacy/">Privacy</a>
+      <a href="{root}legal/">Legal</a>
     </footer>"""
 
 
@@ -318,46 +317,67 @@ def mail_entities():
     return "".join(f"&#{ord(c)};" for c in address)
 
 
-LEGAL = {
-    "imprint": ("Imprint", "Legal notice (Impressum) for feliferch.com.", """
-    <h2>Provider</h2>
+LEGAL_TEXT = """
+    <h2 id="imprint">Imprint</h2>
+    <h3>Provider (§ 5 DDG)</h3>
     <p>Felicitas Ferch<br>Freelance designer<br>Hohenstaufenstr. 34<br>75177 Pforzheim<br>Germany</p>
-    <h2>Contact</h2>
+    <h3>Contact</h3>
     <p>Email: <a href="mailto:{mail}">{mail}</a></p>
-    <h2>Content</h2>
-    <p>The content of this website was created with great care. I cannot guarantee that it is complete, correct or up to date at all times.</p>
-    <h2>Links</h2>
-    <p>This website links to external websites (for example Instagram, LinkedIn and Vimeo). I have no influence on their content and am not responsible for it. At the time of linking I saw no illegal content.</p>
-    <h2>Copyright</h2>
+    <h3>Responsible for content (§ 18 (2) MStV)</h3>
+    <p>Felicitas Ferch, address as above.</p>
+    <h3>Content and links</h3>
+    <p>I create the content of this website with care but cannot guarantee that it is complete, correct or up to date at all times. The website links to external websites (for example Instagram, LinkedIn and Vimeo). I have no influence on their content and am not responsible for it. At the time of linking I saw no illegal content.</p>
+    <h3>Copyright</h3>
     <p>Texts, images and videos on this website are, unless stated otherwise, by Felicitas Ferch or by the people named in the project credits. Please ask before reusing them.</p>
-"""),
-    "privacy": ("Privacy", "How this website handles personal data: it does not set cookies or track visitors.", """
-    <h2>In short</h2>
+
+    <h2 id="privacy">Privacy</h2>
+    <h3>In short</h3>
     <p>This website does not use cookies, analytics, tracking, contact forms, external fonts, external scripts or embedded third-party content. Fonts, images and videos are hosted on the same server as the pages.</p>
-    <h2>Controller</h2>
-    <p>Felicitas Ferch, Hohenstaufenstr. 34, 75177 Pforzheim, Germany. Email: <a href="mailto:{mail}">{mail}</a></p>
-    <h2>Hosting</h2>
-    <p>The website is hosted on GitHub Pages, a service of GitHub, Inc. (USA, part of Microsoft). When you open a page, GitHub's servers receive technical data that your browser sends anyway, such as your IP address, the time of the request, the page requested and the browser type, and store it in server log files. I have no access to these logs. The legal basis is my legitimate interest in providing the website securely (Art. 6(1)(f) GDPR). GitHub may process data in the USA; see GitHub's privacy statement for details.</p>
-    <h2>Domain</h2>
+    <h3>Controller</h3>
+    <p>Felicitas Ferch, Hohenstaufenstr. 34, 75177 Pforzheim, Germany. Email: <a href="mailto:{mail}">{mail}</a>. I have not appointed a data protection officer.</p>
+    <h3>Hosting</h3>
+    <p>The website is hosted on GitHub Pages, a service of GitHub, Inc. (USA, part of Microsoft). When you open a page, GitHub's servers receive technical data that your browser sends anyway, such as your IP address, the time of the request, the page requested and the browser type, and store it in server log files. I have no access to these logs. The legal basis is my legitimate interest in providing the website securely (Art. 6(1)(f) GDPR). GitHub states that it transfers personal data from the EEA to the USA on the basis of the EU–U.S. Data Privacy Framework and standard contractual clauses. Without this processing the website cannot be delivered. GitHub's own privacy statement explains how long it keeps its logs.</p>
+    <h3>Domain</h3>
     <p>The domain feliferch.com is registered with Checkdomain. Checkdomain handles the domain name system; visitors' browsers may query it to find this website.</p>
-    <h2>Data in your browser</h2>
+    <h3>Data in your browser</h3>
     <p>While you move between pages, your browser keeps a short note in its session storage so that the transition from the home page to a project can play smoothly. It contains no personal data and disappears when you close the tab. If you use a phone, the website may read the device's motion sensor to tilt images. This stays on your device and is never sent anywhere.</p>
-    <h2>Email</h2>
-    <p>If you write to me, I process your address and message to answer you. I delete them when the conversation is finished, unless I am required to keep them. The legal basis is Art. 6(1)(b) or (f) GDPR.</p>
-    <h2>Your rights</h2>
-    <p>You have the right to access, correction, deletion, restriction of processing, data portability and objection. You can also complain to a data protection authority, for example the State Commissioner for Data Protection and Freedom of Information of Baden-Württemberg (LfDI Baden-Württemberg).</p>
-"""),
-}
+    <h3>External links</h3>
+    <p>Links to other websites (for example Instagram, LinkedIn and Vimeo) are plain links. Data is only sent to those providers if you click one, and their own privacy statements then apply.</p>
+    <h3>Email</h3>
+    <p>If you write to me, I process your address and message to answer you. I delete them when the conversation is finished, unless I am required to keep them. The legal basis is Art. 6(1)(b) or (f) GDPR. You are not obliged to write to me.</p>
+    <h3>Your rights</h3>
+    <p>You have the right to access, correction, deletion, restriction of processing, data portability and objection. You can also complain to a data protection authority, for example the State Commissioner for Data Protection and Freedom of Information of Baden-Württemberg (LfDI Baden-Württemberg). I do not use automated decision-making or profiling.</p>
+    <p class="legal-doc__date">Last updated: November 2026</p>
+"""
 
 
-def legal_page(folder):
-    title, description, text = LEGAL[folder]
-    body = f"""  <main id="main" class="stub legal">
-    <h1>{e(title)}</h1>
-{text.replace("{mail}", mail_entities())}
+def legal_page():
+    body = f"""  <main id="main" class="legal-doc">
+    <h1>Legal</h1>
+    <p class="legal-doc__toc"><a href="#imprint">Imprint</a> · <a href="#privacy">Privacy</a></p>
+{LEGAL_TEXT.replace("{mail}", mail_entities())}
     {FOOTER}
   </main>"""
-    return page("../", f'{title} – {SITE["name"]}', description, body, path=f"/{folder}/")
+    return page("../", f'Legal – {SITE["name"]}', "Imprint (Impressum) and privacy information for feliferch.com. The website sets no cookies and does not track visitors.", body, path="/legal/")
+
+
+def redirect_page(target, title):
+    """Die alten Adressen /imprint/ und /privacy/ leiten auf die gemeinsame Seite weiter."""
+    url = SITE["url"] + target
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{e(title)}</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="{url}">
+  <meta http-equiv="refresh" content="0; url={target}">
+</head>
+<body>
+  <p><a href="{target}">{e(title)}</a></p>
+</body>
+</html>
+"""
 
 
 def not_found_page():
@@ -373,7 +393,7 @@ def not_found_page():
 
 
 def sitemap(projects):
-    paths = ["/", "/index/", "/about/", "/imprint/", "/privacy/"] + [f"/work/{p['slug']}/" for p in projects]
+    paths = ["/", "/index/", "/about/", "/legal/"] + [f"/work/{p['slug']}/" for p in projects]
     rows = "\n".join(f"  <url><loc>{SITE['url']}{p}</loc></url>" for p in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{rows}\n</urlset>\n'
 
@@ -411,8 +431,9 @@ def main():
     write("index/index.html", index_page(projects))
     write("index.html", home_page(projects))
     write("about/index.html", about_page())
-    for folder in LEGAL:
-        write(f"{folder}/index.html", legal_page(folder))
+    write("legal/index.html", legal_page())
+    write("imprint/index.html", redirect_page("/legal/#imprint", "Imprint"))
+    write("privacy/index.html", redirect_page("/legal/#privacy", "Privacy"))
     write("404.html", not_found_page())
     write("sitemap.xml", sitemap(projects))
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")

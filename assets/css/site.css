@@ -446,3 +446,16 @@ ul, ol { list-style: none; }
 .legal p { max-width: 40rem; }
 .legal a { text-decoration: underline; text-underline-offset: 0.2em; }
 .legal .mono { font-family: var(--font-mono, "DM Mono", monospace); font-size: 0.85rem; }
+
+/* ---------- Legal (Imprint und Privacy auf einer Seite): alles klein, in Mono ---------- */
+.legal-doc { max-width: 44rem; margin-inline: 0; padding: calc(var(--nav-height) + 3rem) var(--pad) 0; }
+.legal-doc, .legal-doc h1, .legal-doc h2, .legal-doc h3, .legal-doc p {
+  font-family: var(--font-mono, "DM Mono", monospace); font-size: 0.8125rem; font-weight: 400; line-height: 1.65; letter-spacing: 0; }
+.legal-doc h1 { margin: 0 0 0.5rem; }
+.legal-doc h2 { margin: 3rem 0 0; padding-top: 1rem; border-top: 1px solid currentColor; scroll-margin-top: calc(var(--nav-height) + 1rem); }
+.legal-doc h3 { margin: 1.5rem 0 0.25rem; opacity: 0.55; }
+.legal-doc p { margin: 0; max-width: 40rem; }
+.legal-doc a { text-decoration: underline; text-underline-offset: 0.2em; }
+.legal-doc p.legal-doc__toc { margin-bottom: 0; }
+.legal-doc p.legal-doc__date { margin-top: 2rem; opacity: 0.55; }
+.legal-doc .footer { padding-inline: 0; }
