@@ -88,7 +88,7 @@ def tag_labels(project):
     return " · ".join(TAGS[t] for t in project["tags"])
 
 
-def page(root, title, description, body, body_class="", scripts=(), early_script="", head_extra="", path=None, og_image="assets/og/default.jpg"):
+def page(root, title, description, body, body_class="", scripts=(), early_script="", head_extra="", path=None, og_image="assets/og/default.jpg", home_href=""):
     """Das Gerüst jeder Seite. 'root' ist der Weg zurück zur obersten Ebene, z. B. '../../'."""
     script_tags = "\n".join(f'  <script type="module" src="{root}assets/js/{s}"></script>'
                             for s in ("nav.js", "cursor.js", *scripts))
@@ -124,7 +124,7 @@ def page(root, title, description, body, body_class="", scripts=(), early_script
 <body class="{body_class}">
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="nav__name" href="{root}">{e(SITE["name"])}</a>
+    <a class="nav__name" href="{root}{home_href}">{e(SITE["name"])}</a>
     <nav aria-label="Main">
       <a href="{root}index/">Index</a>
       <a href="{root}about/">About</a>
@@ -208,7 +208,7 @@ def project_page(project, previous, following):
     title = f'{project["title"]} – {SITE["name"]}'
     return page("../../", title, project["oneLiner"], body, "page-project", scripts=["layers.js", "video.js"],
                 path=f"/work/{slug}/", og_image=f"assets/og/{slug}.jpg", head_extra=preload_cover(project),
-                early_script="enter.js")
+                early_script="enter.js", home_href=f"?at={slug}")
 
 
 def project_rows(projects, sizes="(min-width: 900px) 22rem, 5rem", cursor_label=False):

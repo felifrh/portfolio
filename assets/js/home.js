@@ -208,7 +208,16 @@ if (stage && !calm) {
     stage.classList.remove("is-leaving");
     leaving = false;
   });
-  const remembered = Number(history.state && history.state.homeFront) || 0;
+  // Startposition: Kommt man von einer Projektseite über den Namen oben, steht "?at=<projekt>" in der Adresse
+  // (build.py). Dann steht dieses Projekt vorn. Sonst gilt, was der Verlauf beim Zurückgehen gemerkt hat.
+  // Beides kommt ohne Gerätespeicher aus. Die Adresse wird danach wieder bereinigt.
+  const wanted = new URLSearchParams(location.search).get("at");
+  let remembered = Number(history.state && history.state.homeFront) || 0;
+  if (wanted) {
+    const found = links.findIndex((link) => link.pathname === "/work/" + wanted + "/");
+    if (found >= 0) remembered = found;
+    history.replaceState(history.state, "", location.pathname + location.hash);
+  }
   target = position = remembered;
 
   window.addEventListener("resize", measure);
