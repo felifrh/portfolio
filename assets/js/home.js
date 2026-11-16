@@ -31,6 +31,12 @@ if (stage && !calm) {
   const SOFTNESS = 0.11;   // Weichheit des Scrollens: kleiner = weicher und träger
   const DRIFT = 0.045;     // Tempo des Treibens, in Projekten pro Sekunde
   const WHEEL = 1 / 450;   // Mausrad: Projekte pro Pixel Scrollweg
+  const STICKY = 0.45;     // Magnet: so stark wird das Scrollen mitten auf einem Projekt gebremst (1 = gar nicht)
+  const REACH = 0.3;       // Magnet: wie weit (in Projekten) die Bremse um die Mitte herum wirkt
+  const SNAP = 0.09;       // Magnet: wie schnell das Bild einrastet, wenn nicht mehr gescrollt wird (größer = schneller)
+  const BIAS = 0.42;       // Magnet: Er rastet in Scrollrichtung ein: Ab ca. 0.08 Projekten Weg geht es zum nächsten, kleines Wackeln nicht
+  const SETTLE = 160;      // Magnet: so lange (ms) ohne Eingabe, bis es einrastet
+  const REST = 1200;       // Magnet: so lange (ms) bleibt ein eingerastetes Projekt stehen, bevor das Treiben weitergeht
 
   let vertical, radius, tileSize;
   let target = 0;          // wohin der Bogen will (wächst endlos, 3.0 = viertes Projekt vorn)
@@ -39,6 +45,9 @@ if (stage && !calm) {
   let speed = 0;           // Schwung nach dem Wischen, klingt zum Treiben hin ab
   let paused = false;      // Maus auf einem Bild oder Finger auf der Bühne
   let leaving = false;     // ein Projekt wurde angeklickt
+  let lastInput = 0;       // wann zuletzt gescrollt, gewischt oder eine Taste gedrückt wurde
+  let snapping = false;    // nach einer Eingabe: das nächste Projekt rastet ein
+  let holdUntil = 0;       // bis dahin steht ein eingerastetes Projekt still
   let last = performance.now();
   const placed = tiles.map(() => ({ scale: 1, turn: 0 }));   // aktuelle Größe und Drehung jedes Bildes
   const hover = tiles.map(() => ({ on: false, amount: 0 }));  // Maus über dem Bild: es wächst leicht
@@ -58,9 +67,23 @@ if (stage && !calm) {
   function frame(now) {
     const seconds = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!paused && !leaving) {
+    // Magnet: Hört die Eingabe auf, klingt der Schwung ab und das nächste Projekt rastet weich in der Mitte ein.
+    // Danach steht es kurz still (REST), dann treibt der Bogen langsam weiter.
+    if (snapping && now - lastInput > SETTLE && !leaving) {
+      speed *= 0.9;
+      if (Math.abs(speed) < 0.3) {
+        const goal = Math.round(target + direction * BIAS);      // in Scrollrichtung einrasten
+        target += (goal - target) * SNAP;
+        if (Math.abs(goal - target) < 0.002) {
+          target = goal; snapping = false; speed = 0; holdUntil = now + REST;
+        }
+      }
+    }
+    if (!paused && !leaving && now >= holdUntil) {
       speed += (direction * DRIFT - speed) * 0.04;          // Schwung klingt ab, das Treiben bleibt
       target += speed * seconds;
+    } else if (snapping) {
+      target += speed * seconds;                            // auch mit der Maus auf dem Bild klingt der Schwung ab
     }
     position += (target - position) * SOFTNESS;
     leanX += (tilt.x - leanX) * 0.08;
@@ -116,11 +139,17 @@ if (stage && !calm) {
   }
 
   // ---------- Eingaben ----------
-  window.addEventListener("wheel", (event) => nudge((event.deltaY + event.deltaX) * WHEEL), { passive: true });
+  // Mausrad: Mitten auf einem Projekt bremst der Magnet, weiter weg läuft es frei.
+  window.addEventListener("wheel", (event) => {
+    const away = Math.abs(target - Math.round(target));                     // 0 = genau in der Mitte, 0.5 = dazwischen
+    const grip = STICKY + (1 - STICKY) * Math.min(1, away / REACH);
+    nudge((event.deltaY + event.deltaX) * WHEEL * grip);
+    lastInput = event.timeStamp; snapping = true; speed = 0;
+  }, { passive: true });
 
   window.addEventListener("keydown", (event) => {
     const steps = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
-    if (steps) { target = Math.round(target); nudge(steps); speed = 0; }
+    if (steps) { target = Math.round(target); nudge(steps); speed = 0; lastInput = event.timeStamp; snapping = true; }
   });
 
   let touch = null;
@@ -136,7 +165,10 @@ if (stage && !calm) {
     speed = moved / seconds;                                 // Schwung für das Loslassen
     touch = { at, time: event.timeStamp };
   }, { passive: true });
-  stage.addEventListener("touchend", () => { paused = false; speed = Math.max(-4, Math.min(4, speed)); });
+  stage.addEventListener("touchend", (event) => {
+    paused = false; speed = Math.max(-4, Math.min(4, speed));
+    lastInput = event.timeStamp; snapping = true;            // der Schwung klingt ab, dann rastet es ein
+  });
 
   tiles.forEach((tile, i) => {
     // Treiben pausiert, solange die Maus über einem Bild ist

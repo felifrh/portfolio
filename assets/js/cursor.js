@@ -14,18 +14,32 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
   cursor.append(label);
   document.body.append(cursor);
 
-  window.addEventListener("mousemove", (event) => {
-    cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
-    document.documentElement.classList.add("js-cursor");   // erst jetzt den Systemzeiger ausblenden
-
-    const project = event.target.closest("[data-cursor]");  // Projektbild (Startseite, Index)
-    const link = event.target.closest("a, button, video");
+  // Mausposition merken. Auch wenn die Maus still steht, bewegen sich auf der Startseite die Bilder
+  // darunter (Scrollen, Treiben); deshalb wird in jedem Bild neu geprüft, was unter der Maus liegt.
+  let at = null;
+  function look(element) {
+    const project = element && element.closest("[data-cursor]");  // Projektbild (Startseite, Index)
+    const link = element && element.closest("a, button, video");
     cursor.classList.toggle("is-project", Boolean(project));
     cursor.classList.toggle("is-link", Boolean(link) && !project);
-    label.textContent = project ? project.dataset.cursor : "";
+    const text = project ? project.dataset.cursor : "";
+    if (label.textContent !== text) label.textContent = text;
     // Reicht rechts der Platz nicht, steht der Text links von der Scheibe
-    cursor.classList.toggle("is-flipped", label.textContent !== "" && event.clientX + label.offsetWidth + 60 > window.innerWidth);
+    cursor.classList.toggle("is-flipped", text !== "" && at.x + label.offsetWidth + 60 > window.innerWidth);
+  }
+
+  window.addEventListener("mousemove", (event) => {
+    at = { x: event.clientX, y: event.clientY };
+    cursor.style.transform = `translate(${at.x}px, ${at.y}px)`;
+    document.documentElement.classList.add("js-cursor");   // erst jetzt den Systemzeiger ausblenden
+    look(event.target);
   });
+
+  const watch = () => {
+    if (at && !cursor.classList.contains("is-away")) look(document.elementFromPoint(at.x, at.y));
+    requestAnimationFrame(watch);
+  };
+  requestAnimationFrame(watch);
 
   // Verlässt die Maus das Fenster, verschwindet die Scheibe
   document.documentElement.addEventListener("mouseleave", () => cursor.classList.add("is-away"));
