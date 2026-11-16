@@ -11,7 +11,7 @@
   "oneLiner": "A clay 3D printer that is controlled in real time by hand gestures.",
   "cover": {
     "file": "Ferch_Felicitas_IMAGE.jpg",
-    "alt": "A person in profile stands at a white plinth and moves a hand above a tablet; next to it a clay 3D printer prints onto a small plate.",
+    "alt": "A person in profile stands at a white plinth and moves a hand above a tablet; next to it a clay 3D printer that prints a modified cup.",
     "focus": [
       66,
       63,
@@ -35,7 +35,7 @@
       "media": [
         {
           "file": "DSCF1823.jpg",
-          "alt": "The clay 3D printer on a white plinth; a visitor points at a screen set into the plinth that shows the tracked hand, next to a small sheet explaining the gestures."
+          "alt": "A visitor shows their index finger, the technical behind-the-scene shows the tracked hand; next to it is a small sheet explaining the gestures."
         }
       ]
     },
@@ -47,7 +47,7 @@
       "media": [
         {
           "file": "IMG_4613.jpg",
-          "alt": "Visitors gather around the plinth in an exhibition space and watch the screen while the printer works in the foreground."
+          "alt": "Visitors gather around the stele in an exhibition space and watch the printer adjusting according to their hand gestures."
         },
         {
           "file": "IMG_4730.jpg",
@@ -67,7 +67,7 @@
         },
         {
           "file": "IMG_5583.jpg",
-          "alt": "Many printed clay cylinders standing close together, seen from above."
+          "alt": "Many printed and glazed clay cylinders standing close together, seen from above."
         }
       ]
     }

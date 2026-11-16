@@ -11,7 +11,7 @@
   "oneLiner": "An interactive installation that turns the hidden energy use of AI into a relationship you can see and feel.",
   "cover": {
     "file": "IMG_7707.jpg",
-    "alt": "Three glass greenhouses with herbs on a long table in front of a white wall; above them the Symbiotic Machine logo.",
+    "alt": "Three glass greenhouses with herbs on a long table in front of a white wall; above them the Symbiotic Machine logo during the exhibition at the Kunstverein Heilbronn 2026.",
     "focus": [
       199,
       1401,
@@ -35,7 +35,7 @@
       "media": [
         {
           "file": "SymbioticMachine-Infos.png",
-          "alt": "Poster in dark green: the title Symbiotic Machine in bright green, once upright and once upside down, around a glossy green logo in front of plants."
+          "alt": "Flyer in dark green: the title Symbiotic Machine in bright green, once upright and once upside down, around a glossy green logo in front of plants."
         }
       ]
     },
@@ -49,11 +49,11 @@
           "type": "video",
           "file": "IMG_7836.mov",
           "mode": "controls",
-          "alt": "A visitor, seen from behind, stands at the table with the greenhouses and uses the touch display; orange light runs through the plants."
+          "alt": "A visitor, seen from behind, stands at the table with the greenhouses and uses the touch display; warm light runs through the plants."
         },
         {
           "file": "DSC_4916.jpg",
-          "alt": "Close-up into one greenhouse: a glowing white LED strip runs between rosemary and other herbs."
+          "alt": "Close-up into one greenhouse: a glowing LED strip runs between rosemary and other herbs."
         }
       ]
     },
